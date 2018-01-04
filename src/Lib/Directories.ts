@@ -21,9 +21,7 @@ class Directories {
 	public RepositoryPath: string = join( this.srcPath, '/Repository' );
 	public ServicePath: string = join( this.srcPath, '/Service' );
 
-	public examplesPath: string = join(this.basePath, '/examples');
 	public logsPath: string = join(this.basePath, '/logs');
-	public migrationsPath: string = join(this.basePath, '/migrations');
 	public publicPath: string = join(this.basePath, '/public');
 	public seedersPath: string = join(this.basePath, '/seeders');
 	public tasksPath: string = join(this.basePath, '/tasks');
