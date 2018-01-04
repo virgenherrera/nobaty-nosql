@@ -1,0 +1,11 @@
+{
+	"editor.renderWhitespace": "boundary",
+	"editor.multiCursorModifier": "ctrlCmd",
+	"extensions.ignoreRecommendations": false,
+	"emmet.showSuggestionsAsSnippets": true,
+	"emmet.triggerExpansionOnTab": true,
+	"tslint.enable": true,
+	"tslint.run": "onType",
+	"tslint.autoFixOnSave": true,
+	"tslint.alwaysShowRuleFailuresAsWarnings": true
+}

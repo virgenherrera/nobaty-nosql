@@ -1,0 +1,10 @@
+{
+  "uid": "ProjectName",
+  "append": true,
+  "watch": false,
+  "script": "dist/service.js",
+  "sourceDir": "/",
+  "logFile": "logs/forever.log",
+  "outFile": "logs/out.log",
+  "errFile": "logs/err.log"
+}

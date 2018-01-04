@@ -1,0 +1,47 @@
+import { IcrudController } from '../Lib/interfaces';
+import { {{Module}}Repository } from '../Repository/{{module}}';
+import { {{Module}} } from '../Poco/{{module}}';
+// only for debugging
+// import { dd } from '../Lib/Debug';
+
+/* {{Module}} Controller Class */
+export class {{Module}}Controller implements IcrudController {
+
+	get repository() {
+		return new {{Module}}Repository;
+	}
+
+	async createAction(params): Promise<any> {
+		const Entity	= new {{Module}}(params);
+		const data		= await this.repository.Create(Entity);
+
+		return new {{Module}}( data );
+	}
+
+	async listAction(params): Promise<any> {
+		const {limit, offset} = params;
+		const data = await this.repository.GetAll(params);
+
+		data.rows = data.rows.map( row => new {{Module}}(row) );
+		const {count, rows} = data;
+
+		return {count, rows, limit, offset};
+	}
+
+	async showAction(params): Promise<any> {
+		let data = await this.repository.GetById(params);
+		data	= (data) ? new {{Module}}(data) : null;
+
+		return data;
+	}
+
+	async editAction(params): Promise<any> {
+		const data = await this.repository.Update(params);
+
+		return new {{Module}}(data);
+	}
+
+	async deleteAction({id}): Promise<any> {
+		return await this.repository.Delete(id);
+	}
+}

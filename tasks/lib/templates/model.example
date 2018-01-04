@@ -1,0 +1,40 @@
+import { Column, CreatedAt, DataType, Model, Scopes, Table, UpdatedAt } from 'sequelize-typescript';
+// only for debugging
+// import { dd } from "../Lib/Debug";
+
+@Scopes({
+	default: { attributes: ['id',{{attributesArr}}] },
+	full: { attributes: [] },
+})
+@Table({
+	tableName: '{{tableName}}',
+})
+export class {{Class_Name}} extends Model<{{Class_Name}}> {
+	// UUID Type
+	@Column({
+		allowNull: false,
+		primaryKey: true,
+		type: DataType.UUID,
+		defaultValue: DataType.UUIDV4,
+	})
+	id: string;
+
+	// integer Type
+	/*
+	@Column({
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true,
+		type: DataType.BIGINT,
+	})
+	id: number;
+	*/
+
+{{attrDeclarations}}
+	@CreatedAt
+	createdAt: Date;
+
+	@UpdatedAt
+	updatedAt: Date;
+}
+
