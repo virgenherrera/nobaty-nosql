@@ -1,8 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { plural } from 'pluralize';
 import { IRestFull } from '../../Lib/interfaces';
-import HandlerUtility from '../../Lib/HandlerUtility';
-import restJwtAuth from '../../Middleware/restJwtAuth';
+import { HandlerUtility } from '../../Lib/HandlerUtility';
+import { restJwtAuth } from '../../Middleware/restJwtAuth';
 import { {{Module}}Controller } from '../../Controller/{{Module}}';
 // only for debugging
 // import { dd } from '../../Lib/Debug';

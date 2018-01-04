@@ -1,8 +1,8 @@
 
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { Error404 } from '../Lib/restDtoResponses';
 
-export default (req: Request, res: Response, next: NextFunction): Response => {
+export function notFound(req: Request, res: Response, next: NextFunction): Response {
 	const message = `Not-existent Endpoint '${req.url}' for Method: '${req.method}'`;
 	const e404 = new Error404(message);
 
@@ -11,5 +11,5 @@ export default (req: Request, res: Response, next: NextFunction): Response => {
 	res.locals.error = (req.app.get('env') === 'development') ? e404 : {};
 
 	// return the error JSON Object
-	return res.status( e404.status ).json( e404 );
-};
+	return res.status(e404.status).json(e404);
+}

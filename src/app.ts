@@ -4,8 +4,8 @@ import * as favicon from 'serve-favicon';
 import * as Handlers from './config/handler';
 import { loadEnvironmentVars } from './Lib/loadEnvironmentVars';
 import Directories from './Lib/Directories';
-import { sequelizeConnection } from './Lib/sequelizeConnection';
-import notFound from './Middleware/notFound';
+import { mongooseConnection } from './Lib/mongooseConnection';
+import { notFound } from './Middleware/notFound';
 import { middleware } from './config/middleware';
 import { USE_DATA_PERSISTANCE } from './config/config';
 
@@ -87,7 +87,7 @@ class Application {
 	}
 
 	storageConnect(): this {
-		sequelizeConnection().then(data => console.log(data));
+		mongooseConnection().then(data => console.log(data));
 
 		return this;
 	}

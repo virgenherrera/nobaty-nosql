@@ -1,7 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
-
-
 export interface IHandler {
 	readonly name: string;
 	readonly path: string;
@@ -33,12 +31,12 @@ export interface IdeleteHandler extends IHandler {
 }
 
 export interface IRestFull extends
-IRestHandler,
-IgetAllHandler,
-IgetOneHandler,
-IpostHandler,
-IputHandler,
-IdeleteHandler {}
+	IRestHandler,
+	IgetAllHandler,
+	IgetOneHandler,
+	IpostHandler,
+	IputHandler,
+	IdeleteHandler { }
 
 
 export interface IController {
@@ -50,27 +48,27 @@ export interface IcreateAction extends IController {
 }
 
 export interface IlistAction extends IController {
-	listAction	(p: any): Promise<any>;
+	listAction(p: any): Promise<any>;
 }
 
 export interface IshowAction extends IController {
-	showAction		(p: any): Promise<any>;
+	showAction(p: any): Promise<any>;
 }
 
 export interface IeditAction extends IController {
-	editAction		(p: any): Promise<any>;
+	editAction(p: any): Promise<any>;
 }
 
 export interface IdeleteAction extends IController {
-	deleteAction	(p: any): Promise<any>;
+	deleteAction(p: any): Promise<any>;
 }
 
 export interface IcrudController extends
-IController,
-IlistAction,
-IshowAction,
-IeditAction,
-IdeleteAction {}
+	IController,
+	IlistAction,
+	IshowAction,
+	IeditAction,
+	IdeleteAction { }
 
 export interface IGetById {
 	GetById(p: any): Promise<any>;
@@ -93,17 +91,17 @@ export interface IDelete {
 
 
 export interface IfullRepository extends
-IGetById,
-IGetAll,
-ICreate,
-IUpdate,
-IDelete {}
+	IGetById,
+	IGetAll,
+	ICreate,
+	IUpdate,
+	IDelete { }
 
 export interface IResDto {
 	status: number;
 	success: boolean;
 	message: string;
-	data?: any|any[];
+	data?: any | any[];
 	limit?: number;
 	offset?: number;
 	count?: number;

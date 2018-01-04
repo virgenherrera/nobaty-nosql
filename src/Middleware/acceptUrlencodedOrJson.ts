@@ -4,7 +4,7 @@ import { Error406 } from '../Lib/restDtoResponses';
 
 // allows access without headers only to GET http verb
 // and forces content-type': 'application/x-www-form-urlencoded' OR 'application/json' for POST, PUT, DELETE
-export default (req: Request, res: Response, next: NextFunction): any => {
+export function acceptUrlencodedOrJson(req: Request, res: Response, next: NextFunction): any {
 	const { method, headers } = req;
 	const contentType = headers['content-type'] || null;
 
@@ -18,4 +18,4 @@ export default (req: Request, res: Response, next: NextFunction): any => {
 
 	const e406 = new Error406;
 	return res.status(e406.status).json(e406);
-};
+}

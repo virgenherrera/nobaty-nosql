@@ -12,7 +12,7 @@ import {
 	Error500
 } from './restDtoResponses';
 
-export default class HandlerUtility {
+export class HandlerUtility {
 
 	req: Request;
 	res: Response;
@@ -63,19 +63,19 @@ export default class HandlerUtility {
 	get sort(): object {
 		const { query = {} } = this.req;
 		const { sort = '' } = query;
-		const Res = [];
+		const Res = {};
 
 		const parsed = sort
 			.split(',')
 			.forEach((item: string) => {
 				if (!item) { return; }
-				let order = 'ASC';
+				let order = 'asc';
 				if (item.charAt(0) === '-') {
-					order = 'DESC';
+					order = 'desc';
 					item = item.substring(1);
 				}
 
-				Res.push([item, order]);
+				Res[item] = order;
 			});
 
 		return Res;
