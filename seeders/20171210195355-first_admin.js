@@ -1,8 +1,8 @@
 'use strict';
-const { sequelizeConnection } = require('../dist/Lib/sequelizeConnection');
-const { User } = require('../dist/Model/User');
-const adminUser = {
-	first_name: 'Admin Name',
+const { mongooseConnection } = require('../dist/Lib/mongooseConnection');
+const { UserRepository } = require('../dist/Repository/User');
+const testAdmin = {
+	name: 'Admin Name',
 	last_name: 'Admin Last Name',
 	email: 'admin@admin.com',
 	password: '111111',
@@ -14,8 +14,8 @@ module.exports = {
 		/**
 		* Requiring a compiled model way
 		*/
-		return sequelizeConnection()
-		.then(() => User.create(adminUser) )
+		return mongooseConnection()
+		.then(() => UserRepository.Create(testAdmin) )
 		.catch(E => console.log(E));
 	},
 
