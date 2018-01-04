@@ -4,7 +4,7 @@ import { SessionController } from '../Controller/Session';
 // only for debugging
 // import { dd } from '../Lib/Debug';
 
-export async function restJwtAuth( req: Request, res: Response, next: NextFunction ): Promise<any> {
+export async function renderedJwtAuth( req: Request, res: Response, next: NextFunction ): Promise<any> {
 	const handUtil = new HandlerUtility(req, res, next);
 	const ctrl		= new SessionController;
 	const bRegExp	= new RegExp('Bearer ', 'g');
