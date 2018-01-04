@@ -1,5 +1,5 @@
 import * as SocketIo from 'socket.io';
-// import { SessionController } from '../Controller/Session';
+import { SessionController } from '../Controller/Session';
 import { USE_REAL_TIME_SERVICE } from '../config/config';
 
 export let IO: any|null = null;

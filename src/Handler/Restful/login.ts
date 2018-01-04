@@ -1,5 +1,4 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { plural } from 'pluralize';
 import { IpostHandler } from '../../Lib/interfaces';
 import { HandlerUtility } from '../../Lib/HandlerUtility';
 import { SessionController } from '../../Controller/Session';
@@ -16,7 +15,7 @@ class LoginHandler implements IpostHandler {
 	* router:	the ExpressRouter itself to fill
 	*/
 	name = 'login';
-	path = `/api/v1/${plural(this.name)}`;
+	path = `/api/v1/${this.name}`;
 	router: Router = Router();
 
 	constructor() {

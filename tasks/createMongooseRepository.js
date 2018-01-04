@@ -13,7 +13,7 @@ const letCont = (attr = null) => {
 }
 const valAssign = (attr = null) => {
 	if (!attr) return;
-	return `		if( ${attr} ) Entity.${attr} = ${attr};${"\n"}`;
+	return `		if( ${attr} ) { Entity.${attr} = ${attr}; }${"\n"}`;
 }
 
 return (() => {
