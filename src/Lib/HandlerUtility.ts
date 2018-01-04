@@ -1,5 +1,5 @@
 // import { dd } from '../Lib/Debug';
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import pagination from '../config/pagination';
 import {
 	Auth,
@@ -10,7 +10,7 @@ import {
 	Error400,
 	Error401,
 	Error500
-}	from './restDtoResponses';
+} from './restDtoResponses';
 
 export default class HandlerUtility {
 
@@ -21,7 +21,7 @@ export default class HandlerUtility {
 	_limit: number;
 	_offset: number;
 
-	constructor( req: Request, res: Response, next: NextFunction ) {
+	constructor(req: Request, res: Response, next: NextFunction) {
 		this.req = req;
 		this.res = res;
 		this.next = next;
@@ -35,48 +35,48 @@ export default class HandlerUtility {
 	}
 
 	set limit(limit: number) {
-		if ( typeof limit === 'number' || ( typeof limit === 'string' && /^\d+$/.test( limit ) ) ) {
+		if (typeof limit === 'number' || (typeof limit === 'string' && /^\d+$/.test(limit))) {
 			// parse int
 			limit = Number(limit);
 			// allow MAX limit to defined in constants file
-			this._limit = ( limit > 0 && limit < pagination.limit ) ? limit : pagination.limit;
+			this._limit = (limit > 0 && limit < pagination.limit) ? limit : pagination.limit;
 		}
 	}
 
 	set offset(offset: number) {
-		if ( typeof offset === 'number' || ( typeof offset === 'string' && /^\d+$/.test( offset ) ) ) {
+		if (typeof offset === 'number' || (typeof offset === 'string' && /^\d+$/.test(offset))) {
 			// parse int
 			offset = Number(offset);
 			// offset must be Major than 0
-			this._offset = ( offset > 0 ) ? offset : pagination.offset;
+			this._offset = (offset > 0) ? offset : pagination.offset;
 		}
 	}
 
 	get limit(): number {
-		return Number( this._limit );
+		return Number(this._limit);
 	}
 
 	get offset(): number {
-		return Number( this._offset );
+		return Number(this._offset);
 	}
 
 	get sort(): object {
-		const {query= {}} = this.req;
-		const {sort= ''} = query;
+		const { query = {} } = this.req;
+		const { sort = '' } = query;
 		const Res = [];
 
 		const parsed = sort
-		.split(',')
-		.forEach((item: string) => {
-			if ( !item ) { return; }
-			let order = 'ASC';
-			if ( item.charAt(0) === '-' ) {
-				order = 'DESC';
-				item = item.substring(1);
-			}
+			.split(',')
+			.forEach((item: string) => {
+				if (!item) { return; }
+				let order = 'ASC';
+				if (item.charAt(0) === '-') {
+					order = 'DESC';
+					item = item.substring(1);
+				}
 
-			Res.push([ item, order ]);
-		});
+				Res.push([item, order]);
+			});
 
 		return Res;
 	}
@@ -85,19 +85,19 @@ export default class HandlerUtility {
 		const Req = this.req;
 		let params = [{}];
 
-		if ( typeof paramString === 'string' ) {
+		if (typeof paramString === 'string') {
 			paramString = paramString.split(',');
 		}
 
 		const reqParamsArr = paramString
-		.map((p) => {
-			if ( p in Req ) {
-				return ( typeof Req[p] === 'object' ) ? Req[p] : { [p] : Req[p] };
-			}
-		});
-		params = params.concat( reqParamsArr );
-		if ( Req.method === 'GET' ) {
-			params.push({ limit: this.limit, offset: this.offset, sort: this.sort } );
+			.map((p) => {
+				if (p in Req) {
+					return (typeof Req[p] === 'object') ? Req[p] : { [p]: Req[p] };
+				}
+			});
+		params = params.concat(reqParamsArr);
+		if (Req.method === 'GET') {
+			params.push({ limit: this.limit, offset: this.offset, sort: this.sort });
 		}
 
 		return (<any>Object).assign.apply(this, params);
@@ -130,7 +130,7 @@ export default class HandlerUtility {
 
 			case 'LOGIN':
 				Data = new Auth(params);
-			break;
+				break;
 		}
 
 		return Res.status(Data.status).json(Data);
@@ -140,18 +140,18 @@ export default class HandlerUtility {
 		const { method } = this.req;
 		const Res = this.res;
 		const {
-			name= null,
-			message= null
+			name = null,
+			message = null
 		} = params;
 		let Err;
-		if ( method === 'LOGIN' || name === 'JsonWebTokenError' ) {
+		if (method === 'LOGIN' || name === 'JsonWebTokenError') {
 			Err = new Error401(params);
-		} else if ( message ) {
+		} else if (message) {
 			Err = new Error400(params.message);
 		} else {
 			Err = new Error500(params);
 		}
 
-		return Res.status( Err.status ).json( Err );
+		return Res.status(Err.status).json(Err);
 	}
 }
