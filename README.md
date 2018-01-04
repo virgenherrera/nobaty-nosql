@@ -64,3 +64,7 @@ Notice: some of the following scripts may accept _name or attributes_ parameters
 * `serve-prod` Launch the **transpilated** service using the _"forever"_ module.
 * `nodemon` Shorthand for _node [nodemon-cli-Path]/_**nodemon** cli.
 * `forever` Shorthand for _node [sequelize-cli-Path]/_**forever** cli.
+* `seed` Use it to run __compile-ts__ and __run-seeders --run__ tasks.
+* `create-seeder` Creates a new seeder template in __./seeders__ folder; requires __--name=some__ argument.
+* `run-seeders` Run the up function of seeders placed on __./seeders__ folder.
+* `undo-seeders` Run the down function of seeders placed on __./seeders__ folder.

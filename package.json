@@ -45,7 +45,11 @@
     "serve-prod": "./node_modules/.bin/forever start forever.json",
     "stop-prod": "./node_modules/.bin/forever stop ./bin/www",
     "nodemon": "./node_modules/.bin/nodemon",
-    "forever": "./node_modules/.bin/forever"
+    "forever": "./node_modules/.bin/forever",
+    "seed": "npm-run-all -s -l build-ts run-seeders",
+    "create-seeder": "node ./tasks/mongooseSeed.js --create",
+    "run-seeders": "node ./tasks/mongooseSeed.js --run",
+    "undo-seeders": "node ./tasks/mongooseSeed.js --undo"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

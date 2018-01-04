@@ -14,7 +14,7 @@ export async function mongooseConnection(): Promise<string> {
 	let conn: any;
 
 	try {
-		conn = await mongoose.connect(ConnectionUri, { useMongoClient: true });
+		conn = await mongoose.connect(ConnectionUri);
 	} catch ({ name, message }) {
 
 		console.log(`${name}: ${message}`);
