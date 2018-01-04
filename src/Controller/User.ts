@@ -2,7 +2,7 @@ import { IcrudController } from '../Lib/interfaces';
 import { UserRepository } from '../Repository/user';
 import { User } from '../Poco/user';
 // only for debugging
-// import { dd } from '../Lib/Debug';
+import { dd } from '../Lib/Debug';
 
 /* User Controller Class */
 export class UserController implements IcrudController {
@@ -28,8 +28,8 @@ export class UserController implements IcrudController {
 		return {count, rows, limit, offset};
 	}
 
-	async showAction(params): Promise<any> {
-		let data = await this.repository.GetById(params);
+	async showAction({id}): Promise<any> {
+		let data = await this.repository.GetById({id});
 		data	= (data) ? new User(data) : null;
 
 		return data;

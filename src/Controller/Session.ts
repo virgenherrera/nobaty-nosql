@@ -46,4 +46,8 @@ export class SessionController implements IcreateAction {
 			throw e;
 		}
 	}
+
+	async destroyAction(params): Promise<any> {
+		return true;
+	}
 }
