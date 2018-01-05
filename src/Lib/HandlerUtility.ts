@@ -1,6 +1,6 @@
 // import { dd } from '../Lib/Debug';
 import { Request, Response, NextFunction } from 'express';
-import pagination from '../config/pagination';
+import { DEFAULT_PAGINATION } from '../config/config';
 import {
 	Auth,
 	Get,
@@ -39,7 +39,7 @@ export class HandlerUtility {
 			// parse int
 			limit = Number(limit);
 			// allow MAX limit to defined in constants file
-			this._limit = (limit > 0 && limit < pagination.limit) ? limit : pagination.limit;
+			this._limit = (limit > 0 && limit < DEFAULT_PAGINATION.limit) ? limit : DEFAULT_PAGINATION.limit;
 		}
 	}
 
@@ -48,7 +48,7 @@ export class HandlerUtility {
 			// parse int
 			offset = Number(offset);
 			// offset must be Major than 0
-			this._offset = (offset > 0) ? offset : pagination.offset;
+			this._offset = (offset > 0) ? offset : DEFAULT_PAGINATION.offset;
 		}
 	}
 
