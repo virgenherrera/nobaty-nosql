@@ -9,7 +9,7 @@ const { join } = require('path');
 const { name } = require('../package.json');
 const { AVAILABLE_ENVIRONMENTS } = require('../src/config/config');
 
-function persistanceContent(env = null, srvName = null) {
+function persistenceContent(env = null, srvName = null) {
 	if (!env || !srvName) return;;
 
 	const ENV = env.toUpperCase();
@@ -20,9 +20,9 @@ function persistanceContent(env = null, srvName = null) {
 	return Res;
 }
 
-let PersistanceVars = '';
+let PersistenceVars = '';
 AVAILABLE_ENVIRONMENTS.forEach(Env => {
-	PersistanceVars += persistanceContent(Env, name);
+	PersistenceVars += persistenceContent(Env, name);
 });
 
 
@@ -30,7 +30,7 @@ return (() => {
 	const FirstEnvRegEx = new RegExp("{{FirstEnv}}", "g");
 	const serviceNameRegEx = new RegExp("{{SERVICE_NAME}}", "g");
 	const jwtSecretRegEx = new RegExp("{{JWT_SECRET}}", "g");
-	const PersistanceVarsRegEx = new RegExp("{{PersistanceVars}}", "g");
+	const PersistenceVarsRegEx = new RegExp("{{PersistenceVars}}", "g");
 	const ServiceName = name;
 	const JwtSecret = Math.random().toString(36).slice(2).toUpperCase();
 	const origin = join(__dirname, './lib/templates/.env.example');
@@ -43,7 +43,7 @@ return (() => {
 		.replace(FirstEnvRegEx, AVAILABLE_ENVIRONMENTS[0])
 		.replace(serviceNameRegEx, ServiceName)
 		.replace(jwtSecretRegEx, JwtSecret)
-		.replace(PersistanceVarsRegEx, PersistanceVars);
+		.replace(PersistenceVarsRegEx, PersistenceVars);
 
 	if (existsSync(destiny)) {
 		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);

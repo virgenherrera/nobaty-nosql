@@ -10,10 +10,10 @@ const {
 
 return (() => {
 	const origin = join(__dirname, './lib/templates/dbConfig.example');
-	const destiny = join(__dirname, '../persistance', 'config.js');
+	const destiny = join(__dirname, '../persistence', 'config.js');
 
-	if (!existsSync(join(__dirname, '../persistance'))) {
-		mkdirSync(join(__dirname, '../', 'persistance'))
+	if (!existsSync(join(__dirname, '../persistence'))) {
+		mkdirSync(join(__dirname, '../', 'persistence'))
 	}
 
 	if (existsSync(destiny)) {

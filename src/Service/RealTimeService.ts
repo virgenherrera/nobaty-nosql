@@ -7,8 +7,8 @@ export let IO: any|null = null;
 export class RealTimeService {
 	constructor(ioServer) {
 		if ( !USE_REAL_TIME_SERVICE ) {
-			console.log(`/* Omitting the initialization of the Real-Time Service*/`);
-			console.log(`	if you wish to activate it, change the value of "USE_REAL_TIME_SERVICE" to true in ./src/config/config.ts`);
+			console.log(`	/* Omitting the Real-Time Service*/`);
+			console.log(`if you wish to activate it, change the value of "USE_REAL_TIME_SERVICE" to true in ./src/config/config.ts`);
 			return;
 		}
 

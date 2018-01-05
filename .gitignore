@@ -65,7 +65,7 @@ build/
 forever.json
 
 # Database config files
-persistance/
+persistence/
 
 # forever logs folder
 logs/

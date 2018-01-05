@@ -4,10 +4,10 @@ import * as favicon from 'serve-favicon';
 import * as Handlers from './config/handler';
 import { loadEnvironmentVars } from './Lib/loadEnvironmentVars';
 import Directories from './Lib/Directories';
-import { mongooseConnection } from './Lib/mongooseConnection';
-import { notFound } from './Middleware/notFound';
+import { sequelizeConnection } from './Lib/sequelizeConnection';
+import notFound from './Middleware/notFound';
 import { middleware } from './config/middleware';
-import { USE_DATA_PERSISTANCE } from './config/config';
+import { USE_DATA_PERSISTENCE } from './config/config';
 
 // Create and config a new expressJs web Application
 class Application {
@@ -23,11 +23,11 @@ class Application {
 		// Initialize Express js app
 		this.express = Express();
 
-		if (USE_DATA_PERSISTANCE) {
+		if (USE_DATA_PERSISTENCE) {
 			this.storageConnect();
 		} else {
-			console.log(`/* Omitting the data storage layer */`);
-			console.log(`	if you wish to activate it, change the value of "USE_DATA_PERSISTANCE" to true in ./src/config/config.ts`);
+			console.log(`	/* Omitting the data storage layer */`);
+			console.log(`if you wish to activate it, change the value of "USE_DATA_PERSISTENCE" to true in ./src/config/config.ts`);
 		}
 
 		this
@@ -62,6 +62,7 @@ class Application {
 	}
 
 	exposeRoutes() {
+		console.log(`${'\n'}`);
 
 		for (const key in Handlers) {
 			if (Handlers.hasOwnProperty(key)) {
@@ -70,12 +71,13 @@ class Application {
 				if ((name) && (path) && (router)) {
 					const pString = (path.charAt(0) !== '/') ? `/${path}` : path;
 
-					console.log(`exposing route: '${pString}'${'\n'}from:	'${key}' handler file${'\n'}`);
+					console.log(`exposing route: '${pString}' from: '${key}' handler file`);
 					this.express.use(pString, router);
 				}
 			}
 		}
 
+		console.log(`${'\n'}`);
 		return this;
 	}
 
@@ -86,10 +88,8 @@ class Application {
 		return this;
 	}
 
-	storageConnect(): this {
-		mongooseConnection().then(data => console.log(data));
-
-		return this;
+	async storageConnect(): Promise<void> {
+		await sequelizeConnection();
 	}
 }
 

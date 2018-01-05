@@ -51,7 +51,6 @@ Notice: some of the following scripts may accept _name or attributes_ parameters
 * `provision` Run parallel _provide-env, provide-forever-config,_ scripts.
 * `provide-env` Creates the main Environment file in _./.env_.
 * `provide-forever-config` Creates the forever execution config file in _./forever.json_.
-* `provide-persistance` Run _create-database, run-migrations, run-seeds_ scripts sequentially.
 * `create-module` Will Create a new _controller_, _model_, _poco_, _repository_, _rest handler_ accepting: **--name** and **--attributes** parameters.
 * `create-controller` Create A new _controller_ according accepting: **--name** and **--attributes** parameters.
 * `create-model` Create A new _model_ according accepting: **--name** and **--attributes** parameters.
