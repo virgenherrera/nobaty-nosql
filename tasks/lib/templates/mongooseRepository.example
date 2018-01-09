@@ -19,8 +19,8 @@ export class {{Module}}Repository implements IfullRepository {
 	async GetAll({ limit, offset, sort = {} }): Promise<any> {
 		// Important to return Total count
 		// do not forget to include!!!!
-		const count = await { { Module } } Model.count({}).exec();
-		const rows = await {{ Module }}Model
+		const count = await {{Module}}Model.count({}).exec();
+		const rows = await {{Module}}Model
 			.find()
 			.skip(offset)
 			.limit(limit)
@@ -31,7 +31,7 @@ export class {{Module}}Repository implements IfullRepository {
 	}
 
 	async Create(params): Promise<any> {
-		const preparedEntity = new {{ Module }}Model(params);
+		const preparedEntity = new {{Module}}Model(params);
 		const storedEntity = await preparedEntity.save();
 
 		// to avoid bubble private chars
@@ -52,7 +52,7 @@ export class {{Module}}Repository implements IfullRepository {
 		return await Entity.save();
 	}
 
-	async Delete({id}): Promise<any> {
+	async Delete(id): Promise<any> {
 		return ( await {{Module}}Model.remove({ _id: id }).exec() );
 	}
 }

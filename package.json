@@ -33,7 +33,7 @@
     "provision": "npm-run-all -p -l -c provide-env provide-forever-config",
     "provide-env": "node ./tasks/provideEnv.js",
     "provide-forever-config": "node ./tasks/provideForeverJson.js",
-    "create-module": "node ./tasks/createModule.js",
+    "generate": "node ./tasks/createModule.js",
     "create-controller": "node ./tasks/createController.js",
     "create-model": "node ./tasks/createMongooseModel.js",
     "create-poco": "node ./tasks/createPoco.js",

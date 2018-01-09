@@ -8,9 +8,11 @@ const {
 	join
 } = require('path');
 const ucfirst = require('./lib/ucfirst');
+const toPascalCase = require('./lib/toPascalCase');
 const parseCliArgs = require("./lib/parseCliArgs");
 const interfaceCont = (attr = null, type = null) => {
 	if (!attr || !type) return;
+	type = (type === 'date') ? 'Date' : type;
 	return `	${attr}: ${type};${"\n"}`;
 }
 const schemaAttrCont = (attr = null, type = null) => {
@@ -44,7 +46,7 @@ return (() => {
 	const iContRegex = new RegExp("{{iCont}}", "g");
 	const schemaDefRegex = new RegExp("{{schemaDef}}", "g");
 	const origin = join(__dirname, './lib/templates/mongooseModel.example');
-	const destiny = join(__dirname, `../src/Model/${name}.ts`);
+	const destiny = join(__dirname, `../src/Model/${toPascalCase(name)}.ts`);
 	const fileContent = readFileSync(origin, 'utf-8');
 
 	if (!name) {
@@ -67,7 +69,7 @@ return (() => {
 
 	const newContent = fileContent
 		.toString()
-		.replace(ModuleRegex, ucfirst(name))
+		.replace(ModuleRegex, toPascalCase(name))
 		.replace(iContRegex, iContent)
 		.replace(schemaDefRegex, schemaDefinition);
 

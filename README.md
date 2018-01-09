@@ -36,7 +36,7 @@ If you have successfully arrived at this step, you can launch the project for th
 
 ## Available script Description
 Notice: some of the following scripts may accept _name or attributes_ parameters and you must provide them with the following syntax:
-> `yarn [script] --name=some-name --attributes=attribute1:dataType,attrib2:dataType`
+> `yarn [script] --mod=rest-handler,controller,poco,repository,model --name=some-name --attributes=attribute1:dataType,attrib2:dataType`
 
 ### The following is a list of available `yarn`/`npm` scripts and a brief description:
 * `start` Try to Run _cleanup_, _lint_, _build-ts_, _serve-nodemon_ scripts sequentially.
@@ -51,7 +51,7 @@ Notice: some of the following scripts may accept _name or attributes_ parameters
 * `provision` Run parallel _provide-env, provide-forever-config,_ scripts.
 * `provide-env` Creates the main Environment file in _./.env_.
 * `provide-forever-config` Creates the forever execution config file in _./forever.json_.
-* `create-module` Will Create a new _controller_, _model_, _poco_, _repository_, _rest handler_ accepting: **--name** and **--attributes** parameters.
+* `generate` helps you create a new 'rest-handler', 'controller', 'poco', 'repository', 'model'; accepting the parameters **--mod --name --attributes**.
 * `create-controller` Create A new _controller_ according accepting: **--name** and **--attributes** parameters.
 * `create-model` Create A new _model_ according accepting: **--name** and **--attributes** parameters.
 * `create-poco` Create A new _poco_ according accepting: **--name** and **--attributes** parameters.

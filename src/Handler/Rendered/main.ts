@@ -4,7 +4,7 @@ import { HandlerUtility } from '../../Lib/HandlerUtility';
 import { renderedJwtAuth } from '../../Middleware/renderedJwtAuth';
 import { UserController } from '../../Controller/User';
 // only for debugging
-import { d } from '../../Lib/Debug';
+// import { dd } from '../../Lib/Debug';
 
 /* mainHandler Router Class */
 class MainHandler implements IHandler {
@@ -36,7 +36,7 @@ class MainHandler implements IHandler {
 
 		try {
 			data = await this.controller.showAction(params);
-			data.title = `Hi ${data.first_name}`;
+			data.title = `Hi ${data.name}`;
 
 			return res.render('dashboard_example', data);
 		} catch (E) {
