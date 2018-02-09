@@ -40,36 +40,54 @@ if (create) {
 	return copyFileSync(origin, destiny);
 } else {
 	loadEnvironmentVars();
-	mongooseConnection();
 
-	readdirSync(Directories.seedersPath)
-		.filter(seeder => (seeder.indexOf('.') !== 0) && (seeder.slice(-3) === '.js'))
-		.forEach(seeder => {
-			const {
-				up = null, down = null
-			} = require(join(Directories.seedersPath, seeder));
-			if (!up || !down) {
-				console.log(`skipping seeder file "${seeder}"`);
-				console.log('since it does not export the "up" and "down" methods');
-				return;
+	mongooseConnection()
+		.then(mongoConn => {
+			console.log(mongoConn);
+			const promises = [];
+
+			readdirSync(Directories.seedersPath)
+				.filter(seeder => (seeder.indexOf('.') !== 0) && (seeder.slice(-3) === '.js'))
+				.forEach(seeder => {
+					const {
+						up = null, down = null
+					} = require(join(Directories.seedersPath, seeder));
+
+					if (!up || !down) {
+						console.log(`skipping seeder file "${seeder}"`);
+						console.log('since it does not export the "up" and "down" methods');
+						return;
+					}
+
+					if (!run && !undo) {
+						console.log('impossible to run any seeding action.');
+						console.log('since no --run or --undo parameters were received');
+						return process.exit(1);
+
+					} else if (run && undo) {
+						console.log('impossible to run any seeding action.');
+						console.log('since --run and --undo parameters were received');
+						return process.exit(1);
+
+					} else if (run && !undo) {
+						promises.push(up());
+
+					} else if (!run && undo) {
+						promises.push(down());
+
+					}
+				});
+
+			return Promise.all(promises);
+		})
+		.then(fPromises => {
+			if (run && !undo) {
+				console.log('Finished the successful insertion of "SEEDS"');
+			} else {
+				console.log('Finished the successful removal of "SEEDS"');
 			}
 
-			if (!run && !undo) {
-				console.log('impossible to run any seeding action.');
-				console.log('since no --run or --undo parameters were received');
-				return process.exit(1);
-			} else if (run && undo) {
-				console.log('impossible to run any seeding action.');
-				console.log('since --run and --undo parameters were received');
-				return process.exit(1);
-			} else if (run && !undo) {
-				return up();
-			} else if (!run && undo) {
-				return down();
-			}
+			return process.exit();
 		});
-}
 
-setTimeout(() => {
-	return process.exit();
-}, 15000);
+}
