@@ -1,5 +1,7 @@
 'use strict';
-const { UserModel } = require('../dist/Model/user');
+const {
+	UserModel
+} = require('../dist/Model/user');
 const testAdmin = {
 	name: 'Admin Name',
 	last_name: 'Admin Last Name',
@@ -11,17 +13,21 @@ const testAdmin = {
 module.exports = {
 	up: () => {
 		/**
-		* Requiring a compiled model way
-		*/
+		 * Requiring a compiled model way
+		 */
 		let preparedEntity = new UserModel(testAdmin);
-		return preparedEntity.save();
+		return preparedEntity.save().then(data => {
+			console.log(data);
+			return data
+
+		});
 	},
 
 	down: () => {
 		/**
-		* Requiring a compiled model way
-		*/
-		delete UserModel.password;
+		 * Requiring a compiled model way
+		 */
+		delete testAdmin.password;
 		return UserModel.remove(testAdmin).exec();
 	}
 };

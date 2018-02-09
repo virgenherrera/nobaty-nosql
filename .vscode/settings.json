@@ -1,5 +1,6 @@
 {
-	"editor.renderWhitespace": "boundary",
+  "editor.renderWhitespace": "boundary",
+  "editor.formatOnSave": true,
 	"editor.multiCursorModifier": "ctrlCmd",
 	"extensions.ignoreRecommendations": false,
 	"emmet.showSuggestionsAsSnippets": true,

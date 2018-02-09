@@ -89,7 +89,8 @@ class Application {
 	}
 
 	async storageConnect(): Promise<void> {
-		await mongooseConnection();
+		const msg = await mongooseConnection();
+		console.log(msg);
 	}
 }
 

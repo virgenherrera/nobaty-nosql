@@ -5,9 +5,15 @@ const {
 	writeFileSync,
 	readFileSync
 } = require('fs');
-const { join } = require('path');
-const { name } = require('../package.json');
-const { AVAILABLE_ENVIRONMENTS } = require('../src/config/config');
+const {
+	join
+} = require('path');
+const {
+	name
+} = require('../package.json');
+const {
+	AVAILABLE_ENVIRONMENTS
+} = require('../src/config/config');
 
 function persistenceContent(env = null, srvName = null) {
 	if (!env || !srvName) return;;
@@ -15,6 +21,7 @@ function persistenceContent(env = null, srvName = null) {
 	const ENV = env.toUpperCase();
 	let Res = `${'\n'}`;
 	Res += `MONGO_${ ENV }_ADDRESS=mongodb://127.0.0.1${ '\n' }`;
+	Res += `MONGO_${ ENV }_PORT=27017${ '\n' }`;
 	Res += `MONGO_${ENV}_DATABASE=${srvName}_${ENV.toLowerCase()}${ '\n' }`;
 
 	return Res;

@@ -11,6 +11,11 @@
     "node 8",
     "typescript 2.6"
   ],
+  "contributors": [{
+    "name": "Hugo Virgen",
+    "email": "virgenherrera@gmail.com",
+    "url": "https://github.com/virgenherrera/"
+  }],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/virgenherrera/nobaty-nosql"
@@ -21,35 +26,41 @@
   "license": "MIT",
   "homepage": "https://github.com/virgenherrera/nobaty-nosql#readme",
   "scripts": {
-    "start": "npm-run-all -s -l cleanup lint build-ts serve-nodemon",
-    "develop": "npm-run-all -s -l -c cleanup lint build-ts serve-development",
-    "production": "npm-run-all -s -l cleanup lint build-ts provide-forever-config serve-prod",
-    "build-ts": "tsc",
-    "watch-ts": "tsc -w",
+    "start": "npm-run-all -s -l cleanup lint ts:build serve:node",
+    "production": "npm-run-all -s production:start",
+    "develop": "npm-run-all -s -l -c cleanup lint ts:build serve:development",
+    "provision": "npm-run-all -p provide:all",
     "lint": "node ./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json",
-    "cleanup": "npm-run-all -p clean-transpilated clean-logs",
-    "clean-logs": "node ./tasks/cleanLogs.js",
-    "clean-transpilated": "node ./tasks/cleanTranspilated.js",
-    "provision": "npm-run-all -p -l -c provide-env provide-forever-config",
-    "provide-env": "node ./tasks/provideEnv.js",
-    "provide-forever-config": "node ./tasks/provideForeverJson.js",
+    "seed": "npm-run-all -s -l ts:build seed:run",
     "generate": "node ./tasks/createModule.js",
-    "create-controller": "node ./tasks/createController.js",
-    "create-model": "node ./tasks/createMongooseModel.js",
-    "create-poco": "node ./tasks/createPoco.js",
-    "create-repository": "node ./tasks/createMongooseRepository.js",
-    "create-rest-handler": "node ./tasks/createRestHandler.js",
-    "serve-development": "npm-run-all -p serve-nodemon-debug watch-ts",
-    "serve-nodemon": "./node_modules/.bin/nodemon -w .env -w dist/ -V",
-    "serve-nodemon-debug": "./node_modules/.bin/nodemon -w .env -w dist/ -V --inspect",
-    "serve-prod": "./node_modules/.bin/forever start forever.json",
-    "stop-prod": "./node_modules/.bin/forever stop ./bin/www",
+    "cleanup": "npm-run-all -p clean:all",
     "nodemon": "./node_modules/.bin/nodemon",
     "forever": "./node_modules/.bin/forever",
-    "seed": "npm-run-all -s -l build-ts run-seeders",
-    "create-seeder": "node ./tasks/mongooseSeed.js --create",
-    "run-seeders": "node ./tasks/mongooseSeed.js --run",
-    "undo-seeders": "node ./tasks/mongooseSeed.js --undo"
+
+    "production:start": "npm-run-all -s -l cleanup lint ts:build provide:forever-config serve:forever",
+    "production:restart": "npm-run-all -s -l serve:prod production:start",
+    "production:stop": "npm-run-all -s -l serve:prod cleanup",
+
+    "serve:node": "node ./bin/www",
+    "serve:development": "npm-run-all -p ts:build-watch serve:nodemon",
+    "serve:nodemon": "./node_modules/.bin/nodemon -w .env -w dist/ -V --inspect",
+    "serve:forever": "./node_modules/.bin/forever start forever.json",
+    "serve:prod": "./node_modules/.bin/forever stop ./bin/www",
+
+    "provide:all": "npm-run-all -p -l -c provide:env provide:forever-config",
+    "provide:env": "node ./tasks/provideEnv.js",
+    "provide:forever-config": "node ./tasks/provideForeverJson.js",
+
+    "seed:generate": "node ./tasks/mongooseSeed.js --create",
+    "seed:run": "node ./tasks/mongooseSeed.js --run",
+    "seed:undo": "node ./tasks/mongooseSeed.js --undo",
+
+    "clean:all": "npm-run-all -p clean:transpilated clean:logs",
+    "clean:logs": "node ./tasks/cleanLogs.js",
+    "clean:transpilated": "node ./tasks/cleanTranspilated.js",
+
+    "ts:build": "tsc",
+    "ts:build-watch": "tsc -w"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -63,7 +74,7 @@
     "forever": "^0.15.3",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.19.1",
-    "mongoose": "^5.0.0-rc1",
+    "mongoose": "^5.0.1",
     "morgan": "^1.9.0",
     "nodemon": "^1.12.1",
     "npm-run-all": "^4.1.1",
