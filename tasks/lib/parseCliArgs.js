@@ -18,13 +18,14 @@ module.exports = function () {
 			.filter(v => (v));
 	}
 
-	if (name) {
-		// normalize name
-		name = name
-			.replace(/\W/g, '')
-			.replace(/\d/g, '')
-			.toLowerCase();
-	}
+	// if (name) {
+	// 	// normalize name
+	// 	name = name
+	// 	// .replace(/\W/g, '')
+	// 	// .replace(/\d/g, '')
+	// 	// .toLowerCase()
+	// 	;
+	// }
 
 	if (attributes) {
 		// normalize attributes

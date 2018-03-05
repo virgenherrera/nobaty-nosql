@@ -1,4 +1,8 @@
 "use strict";
-module.exports = (str)=>{
-	return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
-}
+require('ts-node').register();
+const {
+	ucFirst
+} = require('../../src/Lib/stringTransformation');
+
+// transforms the first letter of the string in uppercase
+module.exports = ucFirst;

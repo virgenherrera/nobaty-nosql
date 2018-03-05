@@ -1,7 +1,7 @@
 "use strict";
 require('ts-node').register();
 const {
-	toCamelCase
+	to_snake_case
 } = require('../../src/Lib/stringTransformation');
 
-module.exports = toCamelCase;
+module.exports = to_snake_case;
