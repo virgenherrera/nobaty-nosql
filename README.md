@@ -4,14 +4,13 @@ Take advantage of typescript with express js, mongoose, socket.io yarn and built
 # Project Setup
 These dependencies must be installed globally as the initial step to configure the project environment.
 * yarn
-* typescript
 
 So you must follow the next steps in order to correctly initialize this project.
 
 ## Step 0: Install global dependencies
 You can achieve this by executing the following command:
 > Notice: You must prepend the `sudo` command in case you are running on a UNIX-based system.
-* `npm i -g yarn@1.3.2 typescript@2.6.1`
+* `npm i -g yarn@1.3.2`
 
 ## Step 1: Install project dependencies
 You must execute the `yarn install` command in order to install this project's dependencies.
