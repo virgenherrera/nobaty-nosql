@@ -20,9 +20,9 @@ function persistenceContent(env = null, srvName = null) {
 
 	const ENV = env.toUpperCase();
 	let Res = `${'\n'}`;
-	Res += `MONGO_${ ENV }_ADDRESS=mongodb://127.0.0.1${ '\n' }`;
-	Res += `MONGO_${ ENV }_PORT=27017${ '\n' }`;
-	Res += `MONGO_${ENV}_DATABASE=${srvName}_${ENV.toLowerCase()}${ '\n' }`;
+	Res += `MONGO_${ENV}_ADDRESS=mongodb://127.0.0.1${'\n'}`;
+	Res += `MONGO_${ENV}_PORT=27017${'\n'}`;
+	Res += `MONGO_${ENV}_DATABASE=${srvName}_${ENV.toLowerCase()}${'\n'}`;
 
 	return Res;
 }
@@ -40,7 +40,7 @@ return (() => {
 	const PersistenceVarsRegEx = new RegExp("{{PersistenceVars}}", "g");
 	const ServiceName = name;
 	const JwtSecret = Math.random().toString(36).slice(2).toUpperCase();
-	const origin = join(__dirname, './lib/templates/.env.example');
+	const origin = join(__dirname, '../.env.example');
 	const destiny = join(__dirname, '../', '.env');
 	const fileContent = readFileSync(origin, 'utf-8');
 
