@@ -1,58 +1,91 @@
-import { {{Module}}Model } from '../Model/{{module}}';
-import { IfullRepository } from '../Lib/interfaces';
+import { {{Module}}Model as Model } from '../Model/{{Module}}';
+import { {{Module}} as poco{{Module}} } from '../Poco/{{Module}}';
+import { IFullRepository } from '../Lib/interfaces';
 // only for debugging
-// import { dd } from '../Sys/Debug';
+// import { dd } from '../Lib/Debug';
 
-export class {{Module}}Repository implements IfullRepository {
-	async GetById({ id = null }):Promise<any> {
-		return await {{Module}}Model.findById(id).exec();
+export interface IGetAll{{Module}} {
+	count: number;
+	rows: poco{{Module}}[];
+	limit: number;
+	offset: number;
+}
+
+/* {{Module}} Repository Class */
+export class {{Module}}Repository implements IFullRepository {
+	async GetById({ id = null }): Promise<poco{{Module}}> {
+		const Entity = await Model.findById(id).exec();
+
+		if (!Entity) {
+			throw { type: 404, msg: `non-existent {{Module}} with id: ${id}` };
+		}
+
+		return new poco{{Module}}(Entity);
 	}
 
-	async FindOne(params,fields=null): Promise<any> {
-		return await {{Module}}Model.findOne(params, fields).exec();
+	async FindOne(params, fields = null): Promise<poco{{Module}}> {
+		const Entity = await Model.findOne(params, fields).exec();
+
+		if (!Entity) {
+			throw { type: 404, msg: `non-existent {{Module}} with params: ${JSON.stringify(params)}` };
+		}
+
+		return new poco{{Module}}(Entity);
 	}
 
-	async GetOne({ id = null }):Promise<any>{
-		return await {{Module}}Model.findById(id).exec();
+	async FindBy(params, fields = null): Promise<poco{{Module}}[]> {
+		const data: any[] = await Model.find(params, fields).exec();
+
+		return data.map(row => new poco{{Module}}(row));
 	}
 
-	async GetAll({ limit, offset, sort = {} }): Promise<any> {
+	async GetAll({ where = {}, limit, offset, sort = {} }): Promise<IGetAll{{Module}}> {
 		// Important to return Total count
 		// do not forget to include!!!!
-		const count = await {{Module}}Model.count({}).exec();
-		const rows = await {{Module}}Model
-			.find()
+		const count = await Model.count({}).exec();
+		let rows: any[] = await Model
+			.find(where)
 			.skip(offset)
 			.limit(limit)
 			.sort(sort)
 			.exec();
 
-		return { count, rows };
+		rows = rows.map(row => new poco{{Module}}(row));
+
+		return { count, rows, limit, offset };
 	}
 
-	async Create(params): Promise<any> {
-		const preparedEntity = new {{Module}}Model(params);
-		const storedEntity = await preparedEntity.save();
+	async Create(params): Promise<poco{{Module}}> {
+		const preparedEntity = new Model(params);
+		const Entity = await preparedEntity.save();
 
-		// to avoid bubble private chars
-		return await {{Module}}Model.findById(storedEntity).exec();
+		return new poco{{Module}}(Entity);
 	}
 
-	async Update(params): Promise<any> {
+	async Update(params: any): Promise<poco{{Module}}> {
 		const {
 			id = null,
 {{letDeclarations}}} = params;
-		const Entity = await {{Module}}Model.findById(id).exec();
+		const Entity = await Model.findById(id).exec();
 
 		if (!Entity) {
-			return `non-existent Entity with id: ${id}`;
+			throw { type: 404, msg: `non-existent {{Module}} with id: ${id}` };
 		}
 
 {{valAssignations}}
-		return await Entity.save();
+		const updEntity = await Entity.save();
+		return new poco{{Module}}(updEntity);
 	}
 
-	async Delete(id): Promise<any> {
-		return ( await {{Module}}Model.remove({ _id: id }).exec() );
+	async Delete(id): Promise<poco{{Module}}> {
+		const Entity = await Model.findById(id).exec();
+
+		if (!Entity) {
+			throw { type: 404, msg: `non-existent {{Module}} with id: ${id}` };
+		} else {
+			await Model.remove({ _id: id }).exec();
+		}
+
+		return new poco{{Module}}(Entity);
 	}
 }

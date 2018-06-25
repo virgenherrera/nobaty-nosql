@@ -1,5 +1,6 @@
 "use strict";
 require('ts-node/register');
+
 const {
 	existsSync,
 	writeFileSync,
@@ -53,8 +54,7 @@ return (() => {
 		.replace(PersistenceVarsRegEx, PersistenceVars);
 
 	if (existsSync(destiny)) {
-		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);
-		process.exit(1);
+		console.log(`File: "${destiny}" already exists!`);
 	} else {
 		writeFileSync(destiny, newContent, {
 			encoding: 'utf-8'

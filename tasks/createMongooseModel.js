@@ -17,23 +17,22 @@ const interfaceCont = (attr = null, type = null) => {
 }
 const schemaAttrCont = (attr = null, type = null) => {
 	if (!attr || !type) return;
-	return `	${attr}			: {
-		index		: false,
-		lowercase	: false,
-		required	: false,
-		select		: true,
-		trim		: true,
-		type		: ${ucfirst(type)},
-		unique		: false,
-		uppercase	: false,
-		// set			: (val)=>{/* setter func here! */},
-		// get			: ()=>{/* getter func here! */},
-		// validate	: {
+	return `	${attr}: {
+		index: false,
+		lowercase: false,
+		required: false,
+		select: true,
+		trim: true,
+		type: ${ucfirst(type)},
+		unique: false,
+		uppercase: false,
+		// set: (val)=>{/* setter func here! */},
+		// get: ()=>{/* getter func here! */},
+		// validate: {
 		// 	validator: (val)=>{/* Validation func here! */},
-		// 	message	: '{VALUE} is not a valid ${attr}!'
+		// 	message: '{VALUE} is not a valid ${attr}!'
 		// },
-	},
-`;
+	},${'\n'}`;
 }
 
 return (() => {

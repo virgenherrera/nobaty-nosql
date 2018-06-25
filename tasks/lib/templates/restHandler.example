@@ -7,7 +7,7 @@ import { {{Module}}Controller } from '../../Controller/{{Module}}';
 // only for debugging
 // import { dd } from '../../Lib/Debug';
 
-/* {{module}} Handler Class */
+/* {{Module}} Handler Class */
 class {{Module}}Handler implements IRestFull {
 
 	/**
