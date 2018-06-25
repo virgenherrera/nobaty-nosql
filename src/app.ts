@@ -1,5 +1,4 @@
 import * as Express from 'express';
-import * as moment from 'moment';
 import * as favicon from 'serve-favicon';
 import * as Handlers from './config/handler';
 import { loadEnvironmentVars } from './Lib/loadEnvironmentVars';
@@ -31,12 +30,23 @@ class Application {
 		}
 
 		this
+			.serveFavicon()
 			.middleware()
 			.viewsConfig()
 			.exposePubicPath()
 			.exposeRoutes()
 			.catch404()
 			;
+	}
+
+	serveFavicon(): this {
+		this.express.use(
+			favicon(
+				Directories.getPathToFile('publicPath', 'favicon.ico')
+			)
+		);
+
+		return this;
 	}
 
 	middleware(): this {
@@ -63,16 +73,14 @@ class Application {
 
 	exposeRoutes() {
 		console.log(`${'\n'}`);
+		console.log(`Loading Handlers from: '${Directories.getPathToFile('configPath', 'handler.ts')}' file.`);
 
 		for (const key in Handlers) {
 			if (Handlers.hasOwnProperty(key)) {
-				const { name = null, path = null, router = null } = Handlers[key];
-
-				if ((name) && (path) && (router)) {
-					const pString = (path.charAt(0) !== '/') ? `/${path}` : path;
-
-					console.log(`exposing route: '${pString}' from: '${key}' handler file`);
-					this.express.use(pString, router);
+				const { name = null, router = null } = Handlers[key];
+				if (name && router) {
+					this.express.use(router);
+					console.log(` Using handler: '${name}' from: '${key}' config element.`);
 				}
 			}
 		}

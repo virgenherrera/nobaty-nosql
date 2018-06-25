@@ -7,7 +7,7 @@ const {
 const {
 	join
 } = require('path');
-const toPascalCase = require('./lib/toPascalCase');
+const { toCamelCase } = require('./lib/stringTransformation');
 const parseCliArgs = require("./lib/parseCliArgs");
 
 return (() => {
@@ -16,7 +16,7 @@ return (() => {
 	} = parseCliArgs();
 	const lowerRegEx = new RegExp("{{module}}", "g");
 	const CamelRegEx = new RegExp("{{Module}}", "g");
-	const CamelName = toPascalCase(name);
+	const CamelName = toCamelCase(name);
 	const origin = join(__dirname, './lib/templates/Controller.example');
 	const destiny = join(__dirname, `../src/Controller/${CamelName}.ts`);
 	const fileContent = readFileSync(origin, 'utf-8');

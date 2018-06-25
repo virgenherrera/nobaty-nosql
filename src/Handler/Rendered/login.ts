@@ -21,15 +21,16 @@ class MainHandler implements IHandler {
 	constructor() {
 		// Attach handlers to express Router
 		this.router
-		.get('/', this.getView.bind(this))
-		.post('/', this.postView.bind(this));
+			.get('/', this.getView.bind(this))
+			.post('/', this.postView.bind(this));
 	}
 
 	get controller() {
 		return new SessionController;
 	}
 
-	getView(req: Request, res: Response, next: NextFunction): any {
+	getView(...args): any {
+		const [, res] = args;
 		return res.render('login_example', { title: 'Express Js' });
 	}
 

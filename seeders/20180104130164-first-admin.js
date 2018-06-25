@@ -1,13 +1,11 @@
 'use strict';
 const {
-	UserModel
-} = require('../dist/Model/user');
+	AccountModel
+} = require('../dist/Model/Account');
 const testAdmin = {
-	name: 'Admin Name',
-	last_name: 'Admin Last Name',
 	email: 'admin@admin.com',
 	password: '111111',
-	role: 'admin',
+	userType: 'user',
 };
 
 module.exports = {
@@ -15,7 +13,7 @@ module.exports = {
 		/**
 		 * Requiring a compiled model way
 		 */
-		let preparedEntity = new UserModel(testAdmin);
+		let preparedEntity = new AccountModel(testAdmin);
 		return preparedEntity.save().then(data => {
 			console.log(data);
 			return data
@@ -28,6 +26,6 @@ module.exports = {
 		 * Requiring a compiled model way
 		 */
 		delete testAdmin.password;
-		return UserModel.remove(testAdmin).exec();
+		return AccountModel.remove(testAdmin).exec();
 	}
 };

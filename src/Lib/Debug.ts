@@ -1,11 +1,10 @@
-const { trace } = console;
 
 export function dump(...args) {
-	console.log(`\n//*------- start Data dumping...`);
+	console.log('//*------- start Data dumping...');
 	for (const arg in args) {
 		if (args.hasOwnProperty(arg)) {
 			// Notify about which arg are dumping
-			console.log(`\n\t...for argument:{${arg}}\n`);
+			console.log(`${'\n\t'}...for argument: {${arg}}`);
 			// print type
 			console.log(`Type: ${typeof args[arg]}`);
 			// print length if exists
@@ -32,8 +31,7 @@ export function dump(...args) {
 }
 
 export function die() {
-	console.log('\n\n\nnow Process will die\n\n');
-	trace();
+	console.log('\nnow Process will die');
 	process.exit();
 }
 

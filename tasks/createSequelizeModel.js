@@ -8,8 +8,8 @@ const {
 	join
 } = require('path');
 const pluralize = require('pluralize');
-const ucfirst = require('./lib/ucfirst');
-const toPascalCase = require('./lib/toPascalCase');
+const { ucFirst } = require('./lib/stringTransformation');
+const { toCamelCase } = require('./lib/stringTransformation');
 const parseCliArgs = require("./lib/parseCliArgs");
 const scopeIncl = (attr = null) => {
 	if (!attr) return;
@@ -17,7 +17,7 @@ const scopeIncl = (attr = null) => {
 };
 const attribDeclaration = (attr = null, type = null) => {
 	if (!attr || !type) return;
-	if (type == 'date') type = ucfirst(type);
+	if (type == 'date') type = ucFirst(type);
 	return `${'\t'}@Column${'\n\t'}${attr}: ${type};${'\n\n'}`;
 };
 
@@ -26,7 +26,7 @@ return (() => {
 	let {
 		name = null, attributes = null
 	} = parseCliArgs();
-	const PascalName = toPascalCase(name);
+	const PascalName = toCamelCase(name);
 	let scopeAttribs = '';
 	let attribDefinition = '';
 	const tableNameRegex = new RegExp('{{tableName}}', 'g');

@@ -22,9 +22,9 @@ class LogoutHandler implements IHandler {
 	constructor() {
 		// Attach handlers to express Router
 		this.router
-		.get('/', renderedJwtAuth, this.mainView.bind(this))
-		.post('/', renderedJwtAuth, this.mainView.bind(this))
-		;
+			.get('/', renderedJwtAuth, this.mainView.bind(this))
+			.post('/', renderedJwtAuth, this.mainView.bind(this))
+			;
 	}
 
 	get controller() {
@@ -34,10 +34,9 @@ class LogoutHandler implements IHandler {
 	async mainView(req: Request, res: Response, next: NextFunction): Promise<any> {
 		const handUtil = new HandlerUtility(req, res, next);
 		const params = handUtil.getRequestParams('decodedToken');
-		let data;
 
 		try {
-			data = await this.controller.destroyAction(params);
+			await this.controller.destroyAction(params);
 			return res.status(200).clearCookie('token').redirect('/');
 		} catch (E) {
 			return handUtil.ErrorJsonResponse(E);

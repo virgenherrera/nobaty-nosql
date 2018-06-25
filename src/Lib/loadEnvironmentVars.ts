@@ -25,4 +25,6 @@ export function loadEnvironmentVars(): void {
 		console.log(`declare NODE_ENV in your .env file or in the terminal with one of the following allowed values:${'\n'}${JSON.stringify(AVAILABLE_ENVIRONMENTS)}`);
 		process.exit(1);
 	}
+
+	console.log(`Successfully loaded Environment vars:${'\n'}"${Object.keys(parsed).join('", "')}" from "${dotEnvFilePath}" file.`);
 }

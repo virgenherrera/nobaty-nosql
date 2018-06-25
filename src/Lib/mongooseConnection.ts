@@ -12,10 +12,9 @@ export async function mongooseConnection(): Promise<string> {
 	if (ENV === 'DEVELOPMENT') {
 		mongoose.set('debug', true);
 	}
-	let conn: any;
 
 	try {
-		conn = await mongoose.connect(ConnectionUri);
+		await mongoose.connect(ConnectionUri);
 		return `${'\n'}Using "${ConnectionUri}" MongoDB Database`;
 	} catch ({ name, message }) {
 

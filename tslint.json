@@ -61,6 +61,7 @@
     "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
+    "no-unused-variable": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
@@ -95,7 +96,7 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
+    "typeof-compare": false,
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [
@@ -106,6 +107,9 @@
       "check-separator",
       "check-type"
     ],
-    "interface-name": [true, "always-prefix"]
+    "interface-name": [
+      true,
+      "always-prefix"
+    ]
   }
 }

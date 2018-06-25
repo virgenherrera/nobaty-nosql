@@ -1,35 +1,28 @@
 "use strict";
-const {
-	existsSync,
-	writeFileSync,
-	readFileSync
-} = require('fs');
-const {
-	join
-} = require('path');
+const { existsSync, writeFileSync, readFileSync } = require('fs');
+const { join } = require('path');
 const parseCliArgs = require("./lib/parseCliArgs");
-const toPascalCase = require('./lib/toPascalCase');
-const propCont = (attr = null, type = null) => {
+const { toCamelCase } = require('./lib/stringTransformation');
+
+function propCont(attr = null, type = null) {
 	if (!attr || !type) return;
-	if (type == 'date') type = toPascalCase(type);
-	return `${'\n\t'}public ${attr}: ${type};`;
+	return `${'\n\t'}public ${attr};`;
 }
-const propAssign = (attr = null) => {
+
+function propAssign(attr = null) {
 	if (!attr) return;
 	return `${'\n\t\t'}this.${attr} = params.${attr};`;
 }
 
 return (() => {
-	let {
-		name = null, attributes = null
-	} = parseCliArgs();
+	const { name = null, attributes = null } = parseCliArgs();
 	let propContent = '';
 	let propAssignContent = '';
 	const ModuleRegExp = new RegExp("{{Module}}", "g");
 	const propDefinitionRegExp = new RegExp("{{propDefinition}}", "g");
 	const propAssignRegExp = new RegExp("{{propAssign}}", "g");
 	const origin = join(__dirname, './lib/templates/poco.example');
-	const destiny = join(__dirname, `../src/Poco/${toPascalCase(name)}.ts`);
+	const destiny = join(__dirname, `../src/Poco/${toCamelCase(name)}.ts`);
 	const fileContent = readFileSync(origin, 'utf-8');
 
 	if (!name) {
@@ -53,7 +46,7 @@ return (() => {
 
 	const newContent = fileContent
 		.toString()
-		.replace(ModuleRegExp, toPascalCase(name))
+		.replace(ModuleRegExp, toCamelCase(name))
 		.replace(propDefinitionRegExp, propContent)
 		.replace(propAssignRegExp, propAssignContent);
 
