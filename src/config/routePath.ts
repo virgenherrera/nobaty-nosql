@@ -7,6 +7,8 @@ export class RoutePath {
 	// base value for apiV1Path decorator
 	public static API_V1_PATH = '/api/v1/';
 
+	@basePath() public static VIEW_LOGIN = 'login';
+
 	@apiV1Path() public static Login = 'login';
 	@apiV1Path() public static Logout = 'logout';
 }

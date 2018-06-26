@@ -3,7 +3,7 @@
 const {
 	argv
 } = require('yargs');
-const availableModules = ['rest-handler', 'controller', 'poco', 'repository', 'model'];
+const availableModules = ['rest-handler', 'controller', 'poco', 'repository', 'model', 'dto'];
 
 module.exports = function () {
 	let {

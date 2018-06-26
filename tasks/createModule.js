@@ -22,6 +22,8 @@ mod.forEach(m => {
 	}
 	if (m === 'model') {
 		return require('./createMongooseModel');
-
+	}
+	if (m === 'dto') {
+		return require('./createDtoSchema');
 	}
 });

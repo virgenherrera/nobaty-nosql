@@ -1,5 +1,6 @@
 import { I{{Module}} } from '../Model/{{Module}}';
-import { validateSchema } from '../config/validationSchemas';
+import { {{Module}}Schema } from '../Dto/{{Module}}';
+import { schemaValidator } from '../Lib/schemaValidator';
 // only for debugging
 // import { dd } from '../Lib/Debug';
 
@@ -10,7 +11,7 @@ export class {{Module}} implements I{{Module}} {
 
 	constructor(params: any = {}, validateDto = false) {
 		if (validateDto) {
-			params = validateSchema({{Module}}.name, params);
+			params = schemaValidator(params, {{Module}}Schema, true);
 		}
 
 		this.id = params.id || `${params._id}`;{{propAssign}}
