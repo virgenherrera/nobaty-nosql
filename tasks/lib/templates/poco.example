@@ -10,7 +10,7 @@ export class {{Module}} implements I{{Module}} {
 
 	constructor(params: any = {}, validateDto = false) {
 		if (validateDto) {
-			params = validateSchema('{{Module}}', params);
+			params = validateSchema({{Module}}.name, params);
 		}
 
 		this.id = params.id || `${params._id}`;{{propAssign}}

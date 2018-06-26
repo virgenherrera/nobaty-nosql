@@ -11,16 +11,16 @@ export class {{Module}}Controller implements ICrudController {
 	}
 
 	async createAction(params: any): Promise<any> {
-		const Entity = new {{Module}}(params, true);
-		const data = await {{Module}}Repository.getInstance().Create(Entity);
+		const poco = new {{Module}}(params, true);
+		const data = await {{Module}}Repository.getInstance().Create(poco);
 
 		return new {{Module}}(data);
 	}
 
 	async editAction(params: any): Promise<{{Module}}> {
-		const Dto = new {{Module}}(params, true);
+		const poco = new {{Module}}(params, true);
 
-		return await {{Module}}Repository.getInstance().Update(Dto);
+		return await {{Module}}Repository.getInstance().Update(poco);
 	}
 
 	async listAction(params: any): Promise<IGetAll{{Module}}> {

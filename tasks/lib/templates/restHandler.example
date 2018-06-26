@@ -1,16 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-import { HandlerUtility } from '../../Lib/HandlerUtility';
-import { restJwtAuth } from '../../Middleware/restJwtAuth';
+import { Request, Response } from 'express';
+import { ReqResHandler } from '../../System/ReqResHandler';
+import { restJwtAuth } from '../../Middleware/jwtAuth';
 import { {{Module}}Controller as controller } from '../../Controller/{{Module}}';
-import { RestHandler, Endpoint } from '../../Lib/decorators';
+import { RestHandler, Endpoint } from '../../System/decorators';
 import { RoutePath } from '../../config/routePath';
 
 @RestHandler // <- Transform static methods on class on to Express routers
 export default class {{Module}}Handler {
 	@Endpoint(RoutePath.{{Module}}, restJwtAuth)
-	static async post_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('body');
+	static async post_{{module}}(req: Request, res: Response): Promise<Response> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('body');
 
 		try {
 			const data = await controller.getInstance().createAction(params);
@@ -21,9 +21,9 @@ export default class {{Module}}Handler {
 	}
 
 	@Endpoint(RoutePath.{{Module}}, restJwtAuth)
-	static async get_{{pluralModule}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('query');
+	static async get_{{pluralModule}}(req: Request, res: Response): Promise<Response> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('query');
 
 		try {
 			const data = await controller.getInstance().listAction(params);
@@ -34,9 +34,9 @@ export default class {{Module}}Handler {
 	}
 
 	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
-	static async get_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('params');
+	static async get_{{module}}(req: Request, res: Response): Promise<Response> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('params');
 
 		try {
 			const data = await controller.getInstance().showAction(params);
@@ -48,9 +48,9 @@ export default class {{Module}}Handler {
 	}
 
 	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
-	static async put_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('params,body');
+	static async put_{{module}}(req: Request, res: Response): Promise<Response> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('params,body');
 
 		try {
 			const data = await controller.getInstance().editAction(params);
@@ -62,9 +62,9 @@ export default class {{Module}}Handler {
 	}
 
 	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
-	static async delete_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('params');
+	static async delete_{{module}}(req: Request, res: Response): Promise<Response> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('params');
 
 		try {
 			const data = await controller.getInstance().deleteAction(params);

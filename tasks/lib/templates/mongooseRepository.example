@@ -29,7 +29,7 @@ export class {{Module}}Repository implements IFullRepository {
 			id = null,
 {{letDeclarations}}	foreignConstraints = {},
 		} = params;
-		const Entity = await Model.findById(id).exec();
+		const Entity = <any>await Model.findById(id).exec();
 
 		if (!Entity) {
 			throw { type: 404, msg: `There is no {{Module}} that matches the id: '${id}'.` };
@@ -51,7 +51,7 @@ export class {{Module}}Repository implements IFullRepository {
 			id = null,
 			foreignConstraints = {},
 		} = params;
-		const Entity = await Model.findById(id).exec();
+		const Entity = <any>await Model.findById(id).exec();
 
 		if (!Entity) {
 			throw { type: 404, msg: `There is no {{Module}} that matches the id: '${id}'.` };
@@ -97,15 +97,15 @@ export class {{Module}}Repository implements IFullRepository {
 	async GetAll({ where = {}, limit, offset, sort = {} }): Promise<IGetAll{{Module}}> {
 		// Important to return Total count
 		// do not forget to include!!!!
-		const count = await Model.count({}).exec();
-		let rows: any[] = await Model
+		const count = await Model.count(where).exec();
+		const data: any[] = await Model
 			.find(where)
 			.skip(offset)
 			.limit(limit)
 			.sort(sort)
 			.exec();
 
-		rows = rows.map(row => new poco{{Module}}(row));
+		const rows = data.map(row => new poco{{Module}}(row));
 
 		return { count, rows, limit, offset };
 	}
