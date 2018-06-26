@@ -1,39 +1,34 @@
 "use strict";
-const {
-	existsSync,
-	writeFileSync,
-	readFileSync
-} = require('fs');
-const {
-	join
-} = require('path');
-const ucfirst = require('./lib/ucfirst');
-const toPascalCase = require('./lib/toPascalCase');
+const { existsSync, writeFileSync, readFileSync } = require('fs');
+const { join } = require('path');
+const { ucFirst, toCamelCase } = require('./lib/stringTransformation');
 const parseCliArgs = require("./lib/parseCliArgs");
-const interfaceCont = (attr = null, type = null) => {
+
+function interfaceCont(attr = null, type = null) {
 	if (!attr || !type) return;
 	type = (type === 'date') ? 'Date' : type;
 	return `	${attr}: ${type};${"\n"}`;
 }
-const schemaAttrCont = (attr = null, type = null) => {
+
+function schemaAttrCont(attr = null, type = null) {
 	if (!attr || !type) return;
-	return `	${attr}			: {
-		index		: false,
-		lowercase	: false,
-		required	: false,
-		select		: true,
-		trim		: true,
-		type		: ${ucfirst(type)},
-		unique		: false,
-		uppercase	: false,
-		// set			: (val)=>{/* setter func here! */},
-		// get			: ()=>{/* getter func here! */},
-		// validate	: {
-		// 	validator: (val)=>{/* Validation func here! */},
-		// 	message	: '{VALUE} is not a valid ${attr}!'
+	return `	${attr}: {
+		index: false,
+		unique: false,
+		required: false,
+		type: ${ucFirst(type)},
+		trim: true,
+		select: true,
+		lowercase: false,
+		uppercase: false,
+		// default: '${attr}_DefaultValue_example',
+		// set: (val) => {/* setter func here! */},
+		// get: () => {/* getter func here! */},
+		// validate: {
+		// 	validator: (val) => {/* Validation func here! */},
+		// 	message: '{VALUE} is not a valid ${attr}!'
 		// },
-	},
-`;
+	},${'\n'}`;
 }
 
 return (() => {
@@ -46,7 +41,7 @@ return (() => {
 	const iContRegex = new RegExp("{{iCont}}", "g");
 	const schemaDefRegex = new RegExp("{{schemaDef}}", "g");
 	const origin = join(__dirname, './lib/templates/mongooseModel.example');
-	const destiny = join(__dirname, `../src/Model/${toPascalCase(name)}.ts`);
+	const destiny = join(__dirname, `../src/Model/${toCamelCase(name)}.ts`);
 	const fileContent = readFileSync(origin, 'utf-8');
 
 	if (!name) {
@@ -69,7 +64,7 @@ return (() => {
 
 	const newContent = fileContent
 		.toString()
-		.replace(ModuleRegex, toPascalCase(name))
+		.replace(ModuleRegex, toCamelCase(name))
 		.replace(iContRegex, iContent)
 		.replace(schemaDefRegex, schemaDefinition);
 

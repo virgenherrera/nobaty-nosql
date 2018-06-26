@@ -1,106 +1,76 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { plural } from 'pluralize';
-import { IRestFull } from '../../Lib/interfaces';
+import { Request, Response, NextFunction } from 'express';
 import { HandlerUtility } from '../../Lib/HandlerUtility';
 import { restJwtAuth } from '../../Middleware/restJwtAuth';
-import { {{Module}}Controller } from '../../Controller/{{Module}}';
-// only for debugging
-// import { dd } from '../../Lib/Debug';
+import { {{Module}}Controller as controller } from '../../Controller/{{Module}}';
+import { RestHandler, Endpoint } from '../../Lib/decorators';
+import { RoutePath } from '../../config/routePath';
 
-/* {{module}} Handler Class */
-class {{Module}}Handler implements IRestFull {
-
-	/**
-	* Mandatory Properties Description
-	* name:		this Handler's Name
-	* path:		the path that this handlerClass will manage
-	* router:	the ExpressRouter itself to fill
-	*/
-	name = '{{module}}';
-	path = `/api/v1/${plural(this.name)}`;
-	router: Router = Router();
-
-	constructor() {
-		// Attach handlers to express Router
-		this.router
-		.get('/', restJwtAuth, this.getAllHandler.bind( this ) )
-		.get('/:id', restJwtAuth, this.getOneHandler.bind( this ) )
-		.post( '/', restJwtAuth, this.postHandler.bind( this ) )
-		.put('/:id', restJwtAuth, this.putHandler.bind( this ) )
-		.delete('/:id', restJwtAuth, this.deleteHandler.bind( this ) )
-		;
-	}
-
-	get controller() {
-		return new {{Module}}Controller;
-	}
-
-	async getAllHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('query');
-		let data;
-
-		try {
-			data = await this.controller.listAction(params);
-			return handUtil.SuccessJsonResponse(data);
-		} catch (E) {
-			return handUtil.ErrorJsonResponse(E);
-		}
-	}
-
-	async getOneHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('params');
-		let data;
-
-		try {
-			data = await this.controller.showAction( params );
-			return handUtil.SuccessJsonResponse(data);
-		} catch (E) {
-			return handUtil.ErrorJsonResponse(E);
-
-		}
-	}
-
-	async postHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+@RestHandler // <- Transform static methods on class on to Express routers
+export default class {{Module}}Handler {
+	@Endpoint(RoutePath.{{Module}}, restJwtAuth)
+	static async post_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
 		const handUtil = new HandlerUtility(req, res, next);
 		const params = handUtil.getRequestParams('body');
-		let data;
 
 		try {
-			data = await this.controller.createAction( params );
+			const data = await controller.getInstance().createAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {
 			return handUtil.ErrorJsonResponse(E);
 		}
 	}
 
-	async putHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+	@Endpoint(RoutePath.{{Module}}, restJwtAuth)
+	static async get_{{pluralModule}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
 		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('params,body');
-		let data;
+		const params = handUtil.getRequestParams('query');
 
 		try {
-			data = await this.controller.editAction( params );
+			const data = await controller.getInstance().listAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {
 			return handUtil.ErrorJsonResponse(E);
-
 		}
 	}
 
-	async deleteHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
+	static async get_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
 		const handUtil = new HandlerUtility(req, res, next);
 		const params = handUtil.getRequestParams('params');
-		let data;
 
 		try {
-			data = await this.controller.deleteAction( params );
+			const data = await controller.getInstance().showAction(params);
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+
+		}
+	}
+
+	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
+	static async put_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
+		const handUtil = new HandlerUtility(req, res, next);
+		const params = handUtil.getRequestParams('params,body');
+
+		try {
+			const data = await controller.getInstance().editAction(params);
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+
+		}
+	}
+
+	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
+	static async delete_{{module}}(req: Request, res: Response, next: NextFunction): Promise<Response> {
+		const handUtil = new HandlerUtility(req, res, next);
+		const params = handUtil.getRequestParams('params');
+
+		try {
+			const data = await controller.getInstance().deleteAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {
 			return handUtil.ErrorJsonResponse(E);
 		}
 	}
 }
-
-export default new {{Module}}Handler;

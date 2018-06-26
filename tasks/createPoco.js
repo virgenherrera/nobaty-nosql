@@ -15,7 +15,7 @@ function propAssign(attr = null) {
 }
 
 return (() => {
-	const { name = null, attributes = null } = parseCliArgs();
+	let { name = null, attributes = null } = parseCliArgs();
 	let propContent = '';
 	let propAssignContent = '';
 	const ModuleRegExp = new RegExp("{{Module}}", "g");

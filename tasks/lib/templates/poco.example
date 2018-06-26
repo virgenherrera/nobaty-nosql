@@ -1,13 +1,19 @@
+import { I{{Module}} } from '../Model/{{Module}}';
+import { validateSchema } from '../config/validationSchemas';
 // only for debugging
 // import { dd } from '../Lib/Debug';
 
-export class {{Module}} {
-	public id: string;{{propDefinition}}
-	public createdAt: Date;
-	public updatedAt: Date;
+export class {{Module}} implements I{{Module}} {
+	public id;{{propDefinition}}
+	public createdAt;
+	public updatedAt;
 
-	constructor(params = null) {
-		this.id = params.id;{{propAssign}}
+	constructor(params: any = {}, validateDto = false) {
+		if (validateDto) {
+			params = validateSchema('{{Module}}', params);
+		}
+
+		this.id = params.id || `${params._id}`;{{propAssign}}
 		this.createdAt = params.createdAt;
 		this.updatedAt = params.updatedAt;
 	}

@@ -1,47 +1,37 @@
-import { IcrudController } from '../Lib/interfaces';
-import { {{Module}}Repository } from '../Repository/{{module}}';
-import { {{Module}} } from '../Poco/{{module}}';
+import { ICrudController } from '../Lib/interfaces';
+import { IGetAll{{Module}}, {{Module}}Repository } from '../Repository/{{Module}}';
+import { {{Module}} } from '../Poco/{{Module}}';
 // only for debugging
-// import { dd } from '../Lib/Debug';
+// import { dd, dump , die } from '../Lib/Debug';
 
 /* {{Module}} Controller Class */
-export class {{Module}}Controller implements IcrudController {
-
-	get repository() {
-		return new {{Module}}Repository;
+export class {{Module}}Controller implements ICrudController {
+	static getInstance(): {{Module}}Controller {
+		return new {{Module}}Controller;
 	}
 
-	async createAction(params): Promise<any> {
-		const Entity	= new {{Module}}(params);
-		const data		= await this.repository.Create(Entity);
-
-		return new {{Module}}( data );
-	}
-
-	async listAction(params): Promise<any> {
-		const {limit, offset} = params;
-		const data = await this.repository.GetAll(params);
-
-		data.rows = data.rows.map( row => new {{Module}}(row) );
-		const {count, rows} = data;
-
-		return {count, rows, limit, offset};
-	}
-
-	async showAction(params): Promise<any> {
-		let data = await this.repository.GetById(params);
-		data	= (data) ? new {{Module}}(data) : null;
-
-		return data;
-	}
-
-	async editAction(params): Promise<any> {
-		const data = await this.repository.Update(params);
+	async createAction(params: any): Promise<any> {
+		const Entity = new {{Module}}(params, true);
+		const data = await {{Module}}Repository.getInstance().Create(Entity);
 
 		return new {{Module}}(data);
 	}
 
-	async deleteAction({id}): Promise<any> {
-		return await this.repository.Delete(id);
+	async editAction(params: any): Promise<{{Module}}> {
+		const Dto = new {{Module}}(params, true);
+
+		return await {{Module}}Repository.getInstance().Update(Dto);
+	}
+
+	async listAction(params: any): Promise<IGetAll{{Module}}> {
+		return await {{Module}}Repository.getInstance().GetAll(params);
+	}
+
+	async showAction(params: any): Promise<{{Module}}> {
+		return await {{Module}}Repository.getInstance().GetById(params);
+	}
+
+	async deleteAction({ id }): Promise<{{Module}}> {
+		return await {{Module}}Repository.getInstance().Delete({id});
 	}
 }
