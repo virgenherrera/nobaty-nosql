@@ -10,29 +10,28 @@ if (process.cwd() !== parentDir.slice(0, -1)) {
 class Directories {
 	public srcPath: string = parentDir;
 	public basePath: string = path.join(parentDir, '../');
+	[key: string]: any
 
-	public configPath: string = path.join(this.srcPath, '/config');
-	public ControllerPath: string = path.join(this.srcPath, '/Controller');
-	public HandlerPath: string = path.join(this.srcPath, '/Handler');
-	public LibPath: string = path.join(this.srcPath, '/Lib');
-	public MiddlewarePath: string = path.join(this.srcPath, '/Middleware');
-	public ModelPath: string = path.join(this.srcPath, '/Model');
-	public PocoPath: string = path.join(this.srcPath, '/Poco');
-	public RepositoryPath: string = path.join(this.srcPath, '/Repository');
-	public ServicePath: string = path.join(this.srcPath, '/Service');
+	constructor() {
+		this.mapPathToThis(this.basePath);
+		this.mapPathToThis(this.srcPath);
+		console.log(
+			this
+		);
+	}
 
-	public emailTemplatesPath: string = path.join(this.basePath, '/emailTemplates');
-	public logsPath: string = path.join(this.basePath, '/logs');
-	public publicPath: string = path.join(this.basePath, '/public');
-	public seedersPath: string = path.join(this.basePath, '/seeders');
-	public tasksPath: string = path.join(this.basePath, '/tasks');
-	public uploadsPath: string = path.join(this.basePath, '/uploads');
-	public viewsPath: string = path.join(this.basePath, '/views');
-	public certsPath: string = path.join(this.basePath, '/certs');
+	private mapPathToThis(Path: string): void {
+		const pathsToIgnore = ['.git', '.vscode'];
+		fs
+			.readdirSync(Path)
+			.forEach((element) => {
+				const elPath = path.join(Path, element);
 
-	public publicLogoStoresPath: string = path.join(this.basePath, '/public/assets/img/logo/store');
-	public publicPromoImagesPath: string = path.join(this.basePath, '/public/assets/img/promo/');
-	public publicUserAvatarPath: string = path.join(this.basePath, '/public/assets/img/avatar/user');
+				if (pathsToIgnore.indexOf(element) === -1 && fs.lstatSync(elPath).isDirectory()) {
+					this[`${element}Path`] = elPath;
+				}
+			});
+	}
 
 	getPathToFile(dir: string, file: string | null): string {
 		return (dir in this) ? path.join(this[dir], file) : null;
