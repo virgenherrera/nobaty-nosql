@@ -9,6 +9,9 @@ export class RoutePath {
 
 	@basePath() public static VIEW_LOGIN = 'login';
 
+	@apiV1Path() public static System_Health = 'system/health';
+	@apiV1Path() public static System_Logs = 'system/logs';
+
 	@apiV1Path() public static Login = 'login';
 	@apiV1Path() public static Logout = 'logout';
 }

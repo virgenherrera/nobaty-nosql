@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ReqResHandler } from '../../System/ReqResHandler';
-import { restJwtAuth } from '../../Middleware/restJwtAuth';
+import { restJwtAuth } from '../../Middleware/jwtAuth';
 import { SessionController } from '../../Controller/Session';
 import { RestHandler, Endpoint } from '../../System/decorators';
 import { RoutePath } from '../../config/routePath';
