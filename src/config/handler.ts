@@ -14,4 +14,5 @@
 // export { default as rendered_logout } from '../Handler/Rendered/logout';
 // export { default as rendered_main } from '../Handler/Rendered/main';
 
+export { default as api_system } from '../Handler/Restful/system';
 export { default as api_login } from '../Handler/Restful/login';
