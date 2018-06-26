@@ -15,9 +15,6 @@ class Directories {
 	constructor() {
 		this.mapPathToThis(this.basePath);
 		this.mapPathToThis(this.srcPath);
-		console.log(
-			this
-		);
 	}
 
 	private mapPathToThis(Path: string): void {

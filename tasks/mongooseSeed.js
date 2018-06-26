@@ -19,7 +19,7 @@ const {
 const {
 	mongooseConnection
 } = require('../src/Lib/mongooseConnection');
-const Directories = require('../src/Lib/Directories').default;
+const Directories = require('../src/System/Directories').default;
 
 const {
 	create = null,

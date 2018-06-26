@@ -1,5 +1,5 @@
 import * as dotEnv from 'dotenv';
-import Directories from './Directories';
+import Directories from '../System/Directories';
 import { AVAILABLE_ENVIRONMENTS } from '../config/config';
 
 /**

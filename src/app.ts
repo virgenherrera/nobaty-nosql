@@ -2,9 +2,9 @@ import * as Express from 'express';
 import * as favicon from 'serve-favicon';
 import * as Handlers from './config/handler';
 import { loadEnvironmentVars } from './Lib/loadEnvironmentVars';
-import Directories from './Lib/Directories';
+import Directories from './System/Directories';
 import { mongooseConnection } from './Lib/mongooseConnection';
-import { notFound } from './Middleware/notFound';
+import SharedMiddleWare from './Middleware/shared';
 import { middleware } from './config/middleware';
 import { USE_DATA_PERSISTENCE } from './config/config';
 
@@ -91,7 +91,7 @@ class Application {
 
 	catch404(): this {
 		// catch 404 and handle it
-		this.express.use(notFound);
+		this.express.use(SharedMiddleWare.routePathNotFound());
 
 		return this;
 	}

@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { IHandler } from '../../Lib/interfaces';
-import { HandlerUtility } from '../../Lib/HandlerUtility';
+import { ReqResHandler } from '../../System/ReqResHandler';
 import { SessionController } from '../../Controller/Session';
 // only for debugging
 // import { dd } from '../../Lib/Debug';
@@ -34,9 +34,9 @@ class MainHandler implements IHandler {
 		return res.render('login_example', { title: 'Express Js' });
 	}
 
-	async postView(req: Request, res: Response, next: NextFunction): Promise<any> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('body');
+	async postView(req: Request, res: Response): Promise<any> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('body');
 		let data;
 
 		try {

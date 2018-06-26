@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import Directories from './Directories';
+import Directories from 'System/Directories';
 
 enum priorities {
 	normal = 'normal',

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { HandlerUtilities } from '../System/RequestMapper';
+import { ReqResHandler } from '../System/ReqResHandler';
 import { SessionController } from '../Controller/Session';
 
 export default class SharedMiddleWares {
-	static acceptBodyType(types: string[] = []): Function {
+	static acceptBodyType(types: string[] = []) {
 		return (req: Request, res: Response, next: NextFunction): any => {
-			const util = new HandlerUtilities(req, res);
+			const util = new ReqResHandler(req, res);
 			const contentType = req.headers['content-type'] || null;
 			let goToNext = false;
 
@@ -29,7 +29,7 @@ export default class SharedMiddleWares {
 		};
 	}
 
-	static routePathNotFound(): Function {
+	static routePathNotFound() {
 		return (req: Request, res: Response): Response => {
 			const message = `Not-existent Endpoint '${req.url}' for Method: '${req.method}'`;
 
@@ -38,9 +38,9 @@ export default class SharedMiddleWares {
 		};
 	}
 
-	static restJwtAuth(): Function {
+	static restJwtAuth() {
 		return (req: Request, res: Response, next: NextFunction): Promise<any> => {
-			const handUtil = new HandlerUtilities(req, res);
+			const handUtil = new ReqResHandler(req, res);
 			const ctrl = new SessionController;
 			const bRegExp = new RegExp('Bearer ', 'g');
 			const rawToken = req.body.token ||

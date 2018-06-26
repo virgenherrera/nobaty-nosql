@@ -1,15 +1,18 @@
 import { sign, verify } from 'jsonwebtoken';
 import { validatePassword } from '../Lib/passwordUtil';
-import { IcreateAction } from '../Lib/interfaces';
 import { UserRepository } from '../Repository/user';
 import { User } from '../Poco/user';
 // only for debugging
 // import { dd } from '../Lib/Debug';
 
 /* Session Controller Class */
-export class SessionController implements IcreateAction {
+export class SessionController {
 	secret: string = process.env.JWT_SECRET;
 	options: object = { expiresIn: process.env.JWT_EXPIRATION };
+
+	static getInstance(): SessionController {
+		return new SessionController();
+	}
 
 	get repository() {
 		return new UserRepository;

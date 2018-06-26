@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as moment from 'moment';
-import Directories from '../../Lib/Directories';
-import { HandlerUtility } from '../../Lib/HandlerUtility';
+import Directories from '../../System/Directories';
+import { ReqResHandler } from '../../System/ReqResHandler';
 import { RestHandler, Endpoint } from '../../System/decorators';
 import { RoutePath } from '../../config/routePath';
 
@@ -9,7 +9,7 @@ import { RoutePath } from '../../config/routePath';
 export default class SystemLogsHandler {
 	@Endpoint(RoutePath.System_Health)
 	static async get_post_system_health(req: Request, res: Response, next: NextFunction): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
+		const handUtil = new ReqResHandler(req, res);
 
 		try {
 			const uptime = process.uptime();
@@ -26,8 +26,8 @@ export default class SystemLogsHandler {
 	@Endpoint(RoutePath.System_Logs)
 	static async get_post_system_logs(req: Request, res: Response, next: NextFunction): Promise<any> {
 		const { LOGS_USER, LOGS_PASS } = process.env;
-		const handUtil = new HandlerUtility(req, res, next);
-		const { username = null, password = null, file = 'forever', render = false } = handUtil.getRequestParams('headers,body,query');
+		const handUtil = new ReqResHandler(req, res);
+		const { username = null, password = null, file = 'forever', render = false } = handUtil.mapReqToObject('headers,body,query');
 
 		try {
 			const logFiles = Directories.readDir('logsPath', true);

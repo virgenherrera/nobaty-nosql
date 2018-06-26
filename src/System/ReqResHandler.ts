@@ -3,7 +3,7 @@ import { Config } from '../config';
 import * as restDto from './restDto';
 
 
-export class HandlerUtilities {
+export class ReqResHandler {
 	constructor(private req: Request, private res: Response) { }
 
 	get page(): number {

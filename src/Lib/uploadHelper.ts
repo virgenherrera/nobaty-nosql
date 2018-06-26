@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync } from 'fs';
 import * as multer from 'multer';
-import Directories from '../Lib/Directories';
+import Directories from '../System/Directories';
 
 // Create uploads directory if does not exist
 if (!existsSync(Directories.uploadsPath)) {

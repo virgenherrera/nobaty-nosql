@@ -1,7 +1,7 @@
 import { URL, resolve } from 'url';
 import * as nodemailer from 'nodemailer';
 import { readFileSync } from 'fs';
-import Directories from './Directories';
+import Directories from '../System/Directories';
 import { isEmail } from './validators';
 
 interface IMailAuth {

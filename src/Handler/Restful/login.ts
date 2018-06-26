@@ -1,7 +1,7 @@
 import { SessionController as controller } from '../../Controller/Session';
 import { Endpoint, RestHandler } from '../../System/decorators';
-import { Request, Response, NextFunction } from 'express';
-import { HandlerUtility } from '../../Lib/HandlerUtility';
+import { Request, Response } from 'express';
+import { ReqResHandler } from '../../System/ReqResHandler';
 import { RoutePath } from '../../config/routePath';
 
 /* login Handler Class */
@@ -9,9 +9,9 @@ import { RoutePath } from '../../config/routePath';
 export default class LoginHandler {
 
 	@Endpoint(RoutePath.Login)
-	static async post_Login(req: Request, res: Response, next: NextFunction): Promise<Response> {
-		const handUtil = new HandlerUtility(req, res, next);
-		const params = handUtil.getRequestParams('body');
+	static async post_Login(req: Request, res: Response): Promise<Response> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('body');
 		let data;
 
 		try {
