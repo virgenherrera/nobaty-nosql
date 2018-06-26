@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { ReqResHandler } from '../../System/ReqResHandler';
 import { restJwtAuth } from '../../Middleware/jwtAuth';
 import { SessionController } from '../../Controller/Session';

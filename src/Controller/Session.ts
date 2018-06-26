@@ -25,7 +25,7 @@ export class SessionController {
 		if (!validatePassword(password, data.password)) { throw new Error(`bad credentials`); }
 
 		const jwtPayload = {
-			id: data._id,
+			id: data.id,
 			role: data.role
 		};
 
@@ -51,6 +51,6 @@ export class SessionController {
 	}
 
 	async destroyAction(params): Promise<any> {
-		return true;
+		return params;
 	}
 }

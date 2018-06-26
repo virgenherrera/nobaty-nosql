@@ -5,7 +5,7 @@ import * as socketIo from 'socket.io';
 import { loadEnvironmentVars } from '../Lib/loadEnvironmentVars';
 import { app } from '../app';
 import { RealTimeService } from './RealTimeService';
-import { DropPendingPurchases } from '../CronJob/DropPendingPurchases';
+// import { DropPendingPurchases } from '../CronJob/DropPendingPurchases';
 
 /**
 * Load Environment Variables from .env
@@ -49,7 +49,7 @@ server.on('listening', onListening);
 /**
 * Start cron jobs.
 */
-DropPendingPurchases();
+// DropPendingPurchases();
 
 
 /**

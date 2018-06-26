@@ -1,4 +1,4 @@
-import { URL, resolve } from 'url';
+// import { URL, resolve } from 'url';
 import * as nodemailer from 'nodemailer';
 import { readFileSync } from 'fs';
 import Directories from '../System/Directories';
@@ -92,15 +92,7 @@ export class SendEmail {
 		if (webHookGetParams) { this.webHookGetParams = webHookGetParams; }
 		if (data) { this.emailRenderData = data; }
 
-		switch (emailTemplate) {
-			case 'forgotPass.html':
-				this.prepareForgotEmailContent();
-				break;
-
-			default:
-				this.prepareEmailContent();
-				break;
-		}
+		this.prepareEmailContent();
 	}
 
 	public static async SendEmail(params: any = {}): Promise<any> {
@@ -238,18 +230,18 @@ export class SendEmail {
 		return readFileSync(emailTemplatePath, 'utf-8').toString();
 	}
 
-	private buildWebHookLink() {
-		const url = resolve(this.sawappyWebDomain, this.webHookPath);
-		const hookUri = new URL(url);
+	// private buildWebHookLink() {
+	// 	const url = resolve(this.sawappyWebDomain, this.webHookPath);
+	// 	const hookUri = new URL(url);
 
-		for (const k in this.webHookGetParams) {
-			if (this.webHookGetParams.hasOwnProperty(k)) {
-				hookUri.searchParams.append(k, this.webHookGetParams[k]);
-			}
-		}
+	// 	for (const k in this.webHookGetParams) {
+	// 		if (this.webHookGetParams.hasOwnProperty(k)) {
+	// 			hookUri.searchParams.append(k, this.webHookGetParams[k]);
+	// 		}
+	// 	}
 
-		return hookUri.href;
-	}
+	// 	return hookUri.href;
+	// }
 
 	public prepareEmailContent(): void {
 		const sawappyDomainRegex = new RegExp('{{sawappyDomain}}', 'g');

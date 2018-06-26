@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ReqResHandler } from '../System/ReqResHandler';
+import { SessionController } from '../Controller/Session';
 
 export function restJwtAuth() {
 	return async (req: Request, res: Response, next: NextFunction): Promise<any> => {
