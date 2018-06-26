@@ -10,9 +10,9 @@ export default class {{Module}}Handler {
 	@Endpoint(RoutePath.{{Module}}, restJwtAuth)
 	static async post_{{module}}(req: Request, res: Response): Promise<Response> {
 		const handUtil = new ReqResHandler(req, res);
-		const params = handUtil.mapReqToObject('body');
 
 		try {
+			const params = handUtil.mapReqToObject('body');
 			const data = await controller.getInstance().createAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {
@@ -23,9 +23,9 @@ export default class {{Module}}Handler {
 	@Endpoint(RoutePath.{{Module}}, restJwtAuth)
 	static async get_{{pluralModule}}(req: Request, res: Response): Promise<Response> {
 		const handUtil = new ReqResHandler(req, res);
-		const params = handUtil.mapReqToObject('query');
 
 		try {
+			const params = handUtil.mapReqToObject('query');
 			const data = await controller.getInstance().listAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {
@@ -36,9 +36,9 @@ export default class {{Module}}Handler {
 	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
 	static async get_{{module}}(req: Request, res: Response): Promise<Response> {
 		const handUtil = new ReqResHandler(req, res);
-		const params = handUtil.mapReqToObject('params');
 
 		try {
+			const params = handUtil.mapReqToObject('params');
 			const data = await controller.getInstance().showAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {
@@ -50,9 +50,9 @@ export default class {{Module}}Handler {
 	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
 	static async put_{{module}}(req: Request, res: Response): Promise<Response> {
 		const handUtil = new ReqResHandler(req, res);
-		const params = handUtil.mapReqToObject('params,body');
 
 		try {
+			const params = handUtil.mapReqToObject('params,body');
 			const data = await controller.getInstance().editAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {
@@ -64,9 +64,9 @@ export default class {{Module}}Handler {
 	@Endpoint(RoutePath.{{Module}}_Id, restJwtAuth)
 	static async delete_{{module}}(req: Request, res: Response): Promise<Response> {
 		const handUtil = new ReqResHandler(req, res);
-		const params = handUtil.mapReqToObject('params');
 
 		try {
+			const params = handUtil.mapReqToObject('params');
 			const data = await controller.getInstance().deleteAction(params);
 			return handUtil.SuccessJsonResponse(data);
 		} catch (E) {

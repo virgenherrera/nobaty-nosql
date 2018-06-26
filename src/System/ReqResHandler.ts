@@ -12,8 +12,7 @@ export class ReqResHandler {
 		if (!page) {
 			page = Config.Paging.page;
 		} else if (page && !/^\d+$/.test(page)) {
-			const Ex = { type: 400, message: `The query parameter 'page' is present but is not a positive integer.` };
-			throw this.ErrorJsonResponse(Ex);
+			throw { type: 400, message: `The query parameter 'page' is present but is not a positive integer.` };
 		}
 
 		return Number(page);
@@ -25,8 +24,7 @@ export class ReqResHandler {
 		if (!per_page) {
 			per_page = Config.Paging.per_page;
 		} else if (per_page && !/^\d+$/.test(per_page)) {
-			const Ex = { type: 400, message: `The query parameter 'per_page' is present but is not a positive integer.` };
-			throw this.ErrorJsonResponse(Ex);
+			throw { type: 400, message: `The query parameter 'per_page' is present but is not a positive integer.` };
 		}
 
 		return Number(per_page);

@@ -12,9 +12,8 @@ export class {{Module}}Controller implements ICrudController {
 
 	async createAction(params: any): Promise<any> {
 		const poco = new {{Module}}(params, true);
-		const data = await {{Module}}Repository.getInstance().Create(poco);
 
-		return new {{Module}}(data);
+		return await {{Module}}Repository.getInstance().Create(poco);
 	}
 
 	async editAction(params: any): Promise<{{Module}}> {
