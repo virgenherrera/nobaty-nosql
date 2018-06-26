@@ -1,7 +1,7 @@
 import * as apn from 'apn';
 import * as moment from 'moment';
-import Directories from 'System/Directories';
-import { isJson } from './isJson';
+import Directories from '../System/Directories';
+import { isJson } from './validators';
 
 export class ApplePushNotifications {
 

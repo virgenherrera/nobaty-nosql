@@ -76,7 +76,7 @@ export class ReqResHandler {
 		return Object.assign({}, ...params);
 	}
 
-	public SuccessJsonResponse(data: any, responseOverride: string = null): Response {
+	public SuccessJsonResponse(data: any, responseOverride: string = null): any {
 		let { method } = this.req;
 		let Data;
 
@@ -116,7 +116,7 @@ export class ReqResHandler {
 		return this.res.status(status).json(Data);
 	}
 
-	public ErrorJsonResponse(Exception: any, exceptionOverride: number = null): Response {
+	public ErrorJsonResponse(Exception: any, exceptionOverride: number = null): any {
 		let { type } = Exception;
 		let Err;
 

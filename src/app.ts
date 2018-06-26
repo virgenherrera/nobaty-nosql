@@ -4,7 +4,7 @@ import * as Handlers from './config/handler';
 import { loadEnvironmentVars } from './Lib/loadEnvironmentVars';
 import Directories from './System/Directories';
 import { mongooseConnection } from './Lib/mongooseConnection';
-import SharedMiddleWare from './Middleware/shared';
+import { routePathNotFound } from './Middleware/routePathNotFound';
 import { middleware } from './config/middleware';
 import { USE_DATA_PERSISTENCE } from './config/config';
 
@@ -91,7 +91,7 @@ class Application {
 
 	catch404(): this {
 		// catch 404 and handle it
-		this.express.use(SharedMiddleWare.routePathNotFound());
+		this.express.use(routePathNotFound());
 
 		return this;
 	}
