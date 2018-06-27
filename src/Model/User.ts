@@ -1,4 +1,6 @@
 import { Document, Schema, Model, model } from 'mongoose';
+import { isEmail } from '../Lib/validators';
+import { obfuscatePassword } from '../Lib/passwordUtil';
 // only for debugging
 // import { dd } from "../Lib/Debug";
 
@@ -48,9 +50,9 @@ export const UserSchema: Schema = new Schema({
 		// },
 	},
 	email: {
-		index: false,
-		unique: false,
-		required: false,
+		index: true,
+		unique: true,
+		required: true,
 		type: String,
 		trim: true,
 		select: true,
@@ -59,22 +61,22 @@ export const UserSchema: Schema = new Schema({
 		// default: 'email_DefaultValue_example',
 		// set: (val) => {/* setter func here! */},
 		// get: () => {/* getter func here! */},
-		// validate: {
-		// 	validator: (val) => {/* Validation func here! */},
-		// 	message: '{VALUE} is not a valid email!'
-		// },
+		validate: {
+			validator: isEmail,
+			message: '{VALUE} is not a valid email!'
+		},
 	},
 	password: {
 		index: false,
 		unique: false,
-		required: false,
+		required: true,
 		type: String,
 		trim: true,
-		select: true,
+		select: false,
 		lowercase: false,
 		uppercase: false,
 		// default: 'password_DefaultValue_example',
-		// set: (val) => {/* setter func here! */},
+		set: (val) => obfuscatePassword(val),
 		// get: () => {/* getter func here! */},
 		// validate: {
 		// 	validator: (val) => {/* Validation func here! */},
@@ -84,7 +86,7 @@ export const UserSchema: Schema = new Schema({
 	role: {
 		index: false,
 		unique: false,
-		required: false,
+		required: true,
 		type: String,
 		trim: true,
 		select: true,

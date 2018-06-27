@@ -1,6 +1,8 @@
 import { ICrudController } from '../Lib/interfaces';
 import { IGetAll{{Module}}, {{Module}}Repository } from '../Repository/{{Module}}';
 import { {{Module}} } from '../Poco/{{Module}}';
+import { schemaValidator } from '../Lib/schemaValidator';
+import { new{{Module}}Schema, update{{Module}}Schema } from '../Dto/{{Module}}';
 // only for debugging
 // import { dd, dump , die } from '../Lib/Debug';
 
@@ -11,13 +13,15 @@ export class {{Module}}Controller implements ICrudController {
 	}
 
 	async createAction(params: any): Promise<any> {
-		const poco = new {{Module}}(params, true);
+		const dto = schemaValidator(params, new{{Module}}Schema, true);
+		const poco = new {{Module}}(dto);
 
 		return await {{Module}}Repository.getInstance().Create(poco);
 	}
 
 	async editAction(params: any): Promise<{{Module}}> {
-		const poco = new {{Module}}(params, true);
+		const dto = schemaValidator(params, update{{Module}}Schema, true);
+		const poco = new {{Module}}(dto);
 
 		return await {{Module}}Repository.getInstance().Update(poco);
 	}

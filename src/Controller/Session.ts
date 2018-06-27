@@ -22,7 +22,7 @@ export class SessionController {
 		const data = await this.repository.FindOne({ email }, 'email password role');
 
 		if (!data) { throw new Error(`Non-existent email: ${email}`); }
-		if (!validatePassword(password, data.password)) { throw new Error(`bad credentials`); }
+		if (!validatePassword(password, data.password)) { throw { type: 400, msg: 'bad credentials' }; }
 
 		const jwtPayload = {
 			id: data.id,

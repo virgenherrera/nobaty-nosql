@@ -6,52 +6,28 @@ import * as restDto from './restDto';
 export class ReqResHandler {
 	constructor(private req: Request, private res: Response) { }
 
-	get page(): number {
-		let { page = null } = this.req.query;
+	// get sort(): object {
+	// 	const { sort = '' } = this.req.query;
 
-		if (!page) {
-			page = Config.Paging.page;
-		} else if (page && !/^\d+$/.test(page)) {
-			throw { type: 400, message: `The query parameter 'page' is present but is not a positive integer.` };
-		}
+	// 	return sort
+	// 		.split(',')
+	// 		.reduce((acc, item: string) => {
+	// 			let order;
 
-		return Number(page);
-	}
+	// 			if (item && item.charAt(0) !== '-') {
+	// 				order = 'asc';
 
-	get per_page(): number {
-		let { per_page = null } = this.req.query;
+	// 				acc[item] = order;
+	// 			} else if (item && item.charAt(0) === '-') {
+	// 				order = 'desc';
+	// 				item = item.substring(1);
 
-		if (!per_page) {
-			per_page = Config.Paging.per_page;
-		} else if (per_page && !/^\d+$/.test(per_page)) {
-			throw { type: 400, message: `The query parameter 'per_page' is present but is not a positive integer.` };
-		}
+	// 				acc[item] = order;
+	// 			}
 
-		return Number(per_page);
-	}
-
-	get sort(): object {
-		const { sort = '' } = this.req.query;
-
-		return sort
-			.split(',')
-			.reduce((acc, item: string) => {
-				let order;
-
-				if (item && item.charAt(0) !== '-') {
-					order = 'asc';
-
-					acc[item] = order;
-				} else if (item && item.charAt(0) === '-') {
-					order = 'desc';
-					item = item.substring(1);
-
-					acc[item] = order;
-				}
-
-				return acc;
-			}, {});
-	}
+	// 			return acc;
+	// 		}, {});
+	// }
 
 	public mapReqToObject(paramString: string | string[]): any {
 		if (typeof paramString === 'string') {
@@ -64,14 +40,8 @@ export class ReqResHandler {
 					return (typeof this.req[key] === 'object') ? this.req[key] : { [key]: this.req[key] };
 				}
 			});
-		const params = [{}].concat(reqParamsArr);
 
-		// Inject page, per_page and sort if method is GET
-		if (this.req.method === 'GET') {
-			params.push({ page: this.page, per_page: this.per_page, sort: this.sort });
-		}
-
-		return Object.assign({}, ...params);
+		return Object.assign({}, ...reqParamsArr);
 	}
 
 	public SuccessJsonResponse(data: any, responseOverride: string = null): any {

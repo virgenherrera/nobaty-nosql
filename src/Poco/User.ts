@@ -1,6 +1,4 @@
 import { IUser } from '../Model/User';
-import { UserSchema } from '../Dto/User';
-import { schemaValidator } from '../Lib/schemaValidator';
 // only for debugging
 // import { dd } from '../Lib/Debug';
 
@@ -14,11 +12,7 @@ export class User implements IUser {
 	public createdAt;
 	public updatedAt;
 
-	constructor(params: any = {}, validateDto = false) {
-		if (validateDto) {
-			params = schemaValidator(params, UserSchema, true);
-		}
-
+	constructor(params: any = {}) {
 		this.id = params.id || `${params._id}`;
 		this.name = params.name;
 		this.lastName = params.lastName;
