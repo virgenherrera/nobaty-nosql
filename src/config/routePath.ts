@@ -14,4 +14,7 @@ export class RoutePath {
 
 	@apiV1Path() public static Login = 'login';
 	@apiV1Path() public static Logout = 'logout';
+
+	@apiV1Path() public static User = 'users';
+	@apiV1Path() public static User_Id = 'users/:id';
 }

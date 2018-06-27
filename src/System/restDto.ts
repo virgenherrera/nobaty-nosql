@@ -4,14 +4,8 @@ export class Http400 {
 	public message = 'Request could not be understood due to malformed syntax. You SHOULD NOT repeat the request without modifications.';
 	public errors;
 
-	constructor(Exceptions: string[] = []) {
-		this.errors = Exceptions.reduce((acc, E) => {
-			if (E) {
-				acc.push(E);
-			}
-
-			return acc;
-		}, []);
+	constructor(errors: any) {
+		this.errors = errors;
 	}
 }
 
@@ -21,14 +15,8 @@ export class Http401 {
 	public message = 'Unauthorized: Access is denied due to invalid credentials or permissions.';
 	public errors;
 
-	constructor(Exceptions: string[] = []) {
-		this.errors = Exceptions.reduce((acc, E) => {
-			if (E) {
-				acc.push(E);
-			}
-
-			return acc;
-		}, []);
+	constructor(errors: any) {
+		this.errors = errors;
 	}
 }
 
@@ -38,14 +26,8 @@ export class Http403 {
 	public message = 'The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort and the request SHOULD NOT be repeated.';
 	public errors;
 
-	constructor(Exceptions: string[] = []) {
-		this.errors = Exceptions.reduce((acc, E) => {
-			if (E) {
-				acc.push(E);
-			}
-
-			return acc;
-		}, []);
+	constructor(errors: any) {
+		this.errors = errors;
 	}
 }
 
@@ -61,14 +43,8 @@ export class Http406 {
 	public message = `The requested resource is capable of generating only content not acceptable according to the Content-Type sent in the request.`;
 	public errors;
 
-	constructor(Exceptions: string[] = []) {
-		this.errors = Exceptions.reduce((acc, E) => {
-			if (E) {
-				acc.push(E);
-			}
-
-			return acc;
-		}, []);
+	constructor(errors: any) {
+		this.errors = errors;
 	}
 }
 

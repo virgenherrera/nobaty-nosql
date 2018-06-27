@@ -46,7 +46,7 @@ export class SessionController {
 
 			return new User(data);
 		} catch (e) {
-			throw e;
+			throw { type: 400, msg: e };
 		}
 	}
 
