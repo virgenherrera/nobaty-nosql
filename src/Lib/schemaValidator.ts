@@ -10,8 +10,6 @@ export function schemaValidator(params: any, schema: any, convert: boolean = fal
 	const { error, value } = Joi.validate(params, schema, { convert });
 	if (error) {
 
-		console.error(error);
-
 		const [obj] = error.details;
 		throw { type: 400, msg: obj.message };
 	}
