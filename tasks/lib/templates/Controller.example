@@ -3,6 +3,7 @@ import { IGetAll{{Module}}, {{Module}}Repository } from '../Repository/{{Module}
 import { {{Module}} } from '../Poco/{{Module}}';
 import { schemaValidator } from '../Lib/schemaValidator';
 import { new{{Module}}Schema, update{{Module}}Schema } from '../Dto/{{Module}}';
+import { findEntitySchema, listEntitySchema } from '../Dto/globalService';
 // only for debugging
 // import { dd, dump , die } from '../Lib/Debug';
 
@@ -27,7 +28,9 @@ export class {{Module}}Controller implements ICrudController {
 	}
 
 	async listAction(params: any): Promise<IGetAll{{Module}}> {
-		return await {{Module}}Repository.getInstance().GetAll(params);
+		const dto = schemaValidator(params, findEntitySchema, true);
+
+		return await {{Module}}Repository.getInstance().GetAll(dto);
 	}
 
 	async showAction(params: any): Promise<{{Module}}> {

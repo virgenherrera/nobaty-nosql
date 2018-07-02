@@ -1,33 +1,9 @@
 import { Request, Response } from 'express';
-import { Config } from '../config';
 import * as restDto from './restDto';
 
 
 export class ReqResHandler {
 	constructor(private req: Request, private res: Response) { }
-
-	// get sort(): object {
-	// 	const { sort = '' } = this.req.query;
-
-	// 	return sort
-	// 		.split(',')
-	// 		.reduce((acc, item: string) => {
-	// 			let order;
-
-	// 			if (item && item.charAt(0) !== '-') {
-	// 				order = 'asc';
-
-	// 				acc[item] = order;
-	// 			} else if (item && item.charAt(0) === '-') {
-	// 				order = 'desc';
-	// 				item = item.substring(1);
-
-	// 				acc[item] = order;
-	// 			}
-
-	// 			return acc;
-	// 		}, {});
-	// }
 
 	public mapReqToObject(paramString: string | string[]): any {
 		if (typeof paramString === 'string') {

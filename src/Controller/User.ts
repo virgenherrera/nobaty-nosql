@@ -3,8 +3,10 @@ import { IGetAllUser, UserRepository } from '../Repository/User';
 import { User } from '../Poco/User';
 import { schemaValidator } from '../Lib/schemaValidator';
 import { newUserSchema, updateUserSchema } from '../Dto/User';
+import { findEntitySchema, listEntitySchema } from '../Dto/globalService';
+import { parseSort } from '../Lib/parseSort';
 // only for debugging
-// import { dd, dump , die } from '../Lib/Debug';
+// import { dd, dump, die } from '../Lib/Debug';
 
 /* User Controller Class */
 export class UserController implements ICrudController {
@@ -25,7 +27,8 @@ export class UserController implements ICrudController {
 	async editAction(params: any): Promise<User> {
 		const dto = schemaValidator(params, updateUserSchema, true);
 		const poco = new User(dto);
-		const user = await UserRepository.getInstance().Update(poco);
+		const query = parseSort(poco);
+		const user = await UserRepository.getInstance().Update(query);
 
 		user.password = 'private';
 
@@ -33,16 +36,20 @@ export class UserController implements ICrudController {
 	}
 
 	async listAction(params: any): Promise<IGetAllUser> {
-		return await UserRepository.getInstance().GetAll(params);
+		const dto = schemaValidator(params, listEntitySchema, true);
+
+		return await UserRepository.getInstance().GetAll(dto);
 	}
 
 	async showAction(params: any): Promise<User> {
-		const dto = schemaValidator(params, updateUserSchema, true);
+		const dto = schemaValidator(params, findEntitySchema, true);
 
 		return await UserRepository.getInstance().GetById(dto);
 	}
 
-	async deleteAction({ id }): Promise<User> {
-		return await UserRepository.getInstance().Delete({ id });
+	async deleteAction(params): Promise<User> {
+		const dto = schemaValidator(params, findEntitySchema, true);
+
+		return await UserRepository.getInstance().Delete(dto);
 	}
 }

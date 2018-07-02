@@ -19,7 +19,12 @@ export class UserRepository implements IFullRepository {
 
 	async Create(params): Promise<pocoUser> {
 		const preparedEntity = new Model(params);
-		const Entity = await preparedEntity.save();
+		let Entity;
+		try {
+			Entity = await preparedEntity.save();
+		} catch (E) {
+			throw { type: 400, msg: `Error: '${E.code}' thrown by the data persistence layer.` };
+		}
 
 		return new pocoUser(Entity);
 	}
@@ -104,7 +109,7 @@ export class UserRepository implements IFullRepository {
 		return data.map(row => new pocoUser(row));
 	}
 
-	async GetAll({ where = {}, limit, offset, sort = {} }): Promise<IGetAllUser> {
+	async GetAll({ limit, offset, where = {}, sort = {} }): Promise<IGetAllUser> {
 		// Important to return Total count
 		// do not forget to include!!!!
 		const count = await Model.count(where).exec();
