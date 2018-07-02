@@ -82,6 +82,8 @@ export class Http200 {
 				break;
 		}
 
+		delete params['method'];
+
 		// pending
 		if ((rows) && count >= 0) {
 			this.data = rows;
@@ -92,6 +94,7 @@ export class Http200 {
 		} else {
 			this.data = params;
 		}
+
 	}
 }
 

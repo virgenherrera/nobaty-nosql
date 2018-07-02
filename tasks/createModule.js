@@ -2,9 +2,7 @@
 
 "use strict";
 const parseCliArgs = require("./lib/parseCliArgs");
-const {
-	mod = []
-} = parseCliArgs();
+const { mod = [] } = parseCliArgs();
 
 mod.forEach(m => {
 

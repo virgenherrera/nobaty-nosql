@@ -7,7 +7,7 @@ export class ReqResHandler {
 
 	public mapReqToObject(paramString: string | string[]): any {
 		if (typeof paramString === 'string') {
-			paramString = paramString.split(',').filter(v => v);
+			paramString = paramString.split(',');
 		}
 
 		const reqParamsArr = paramString
@@ -39,11 +39,14 @@ export class ReqResHandler {
 				break;
 
 			case 'PUT':
-				Data = new restDto.Http200(Object.assign({}, data, { method: method }));
+				data['method'] = method;
+				Data = new restDto.Http200(data);
+
 				break;
 
 			case 'DELETE':
-				Data = new restDto.Http200(Object.assign({}, data, { method: method }));
+				data['method'] = method;
+				Data = new restDto.Http200(data);
 				break;
 			case '204':
 				Data = new restDto.Http204;

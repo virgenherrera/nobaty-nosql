@@ -4,6 +4,7 @@ import { {{Module}} } from '../Poco/{{Module}}';
 import { schemaValidator } from '../Lib/schemaValidator';
 import { new{{Module}}Schema, update{{Module}}Schema } from '../Dto/{{Module}}';
 import { findEntitySchema, listEntitySchema } from '../Dto/globalService';
+import { parseSort } from '../Lib/parseSort';
 // only for debugging
 // import { dd, dump , die } from '../Lib/Debug';
 
@@ -28,16 +29,21 @@ export class {{Module}}Controller implements ICrudController {
 	}
 
 	async listAction(params: any): Promise<IGetAll{{Module}}> {
-		const dto = schemaValidator(params, findEntitySchema, true);
+		const dto = schemaValidator(params, listEntitySchema, true);
+		const query = parseSort(dto);
 
-		return await {{Module}}Repository.getInstance().GetAll(dto);
+		return await {{Module}}Repository.getInstance().GetAll(query);
 	}
 
 	async showAction(params: any): Promise<{{Module}}> {
-		return await {{Module}}Repository.getInstance().GetById(params);
+		const dto = schemaValidator(params, findEntitySchema, true);
+
+		return await {{Module}}Repository.getInstance().GetById(dto);
 	}
 
-	async deleteAction({ id }): Promise<{{Module}}> {
-		return await {{Module}}Repository.getInstance().Delete({id});
+	async deleteAction(params: any): Promise<{{Module}}> {
+		const dto = schemaValidator(params, findEntitySchema, true);
+
+		return await {{Module}}Repository.getInstance().Delete(dto);
 	}
 }

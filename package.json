@@ -54,7 +54,7 @@
     "seed:undo": "node ./tasks/mongooseSeed.js --undo",
     "clean:all": "run-p clean:dist clean:logs",
     "clean:logs": "node ./tasks/cleanLogs.js",
-    "clean:dist": "node ./tasks/cleanDist.js",
+    "clean:dist": "node ./tasks/cleanBuild.js",
     "ts:build": "./node_modules/.bin/tsc",
     "ts:build-watch": "./node_modules/.bin/tsc -w",
     "postinstall": "run-s provision"

@@ -27,8 +27,7 @@ export class UserController implements ICrudController {
 	async editAction(params: any): Promise<User> {
 		const dto = schemaValidator(params, updateUserSchema, true);
 		const poco = new User(dto);
-		const query = parseSort(poco);
-		const user = await UserRepository.getInstance().Update(query);
+		const user = await UserRepository.getInstance().Update(poco);
 
 		user.password = 'private';
 
@@ -37,8 +36,9 @@ export class UserController implements ICrudController {
 
 	async listAction(params: any): Promise<IGetAllUser> {
 		const dto = schemaValidator(params, listEntitySchema, true);
+		const query = parseSort(dto);
 
-		return await UserRepository.getInstance().GetAll(dto);
+		return await UserRepository.getInstance().GetAll(query);
 	}
 
 	async showAction(params: any): Promise<User> {

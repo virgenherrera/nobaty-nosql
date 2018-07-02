@@ -10,7 +10,7 @@ export const newUserSchema = Joi.object().keys({
 });
 
 export const updateUserSchema = Joi.object().keys({
-	id: Joi.string().regex(/^[a-f\d]{24}$/i).required(),
+	id: Joi.string().hex().length(24).required(),
 	name: Joi.string(),
 	lastName: Joi.string(),
 	email: Joi.string().email(),

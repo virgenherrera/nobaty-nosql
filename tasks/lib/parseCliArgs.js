@@ -1,31 +1,22 @@
 #!/usr/bin/env node
 
-const {
-	argv
-} = require('yargs');
+const { argv } = require('yargs');
+const allValue = 'all';
 const availableModules = ['rest-handler', 'controller', 'poco', 'repository', 'model', 'dto'];
 
 module.exports = function () {
-	let {
-		mod = null, name = null, attributes = null,
-	} = argv;
+	let { mod = null, name = null, attributes = null } = argv;
+
+	mod = (mod === allValue) ? availableModules.join() : mod;
 
 	// normalize modules
 	if (mod) {
+
 		mod = mod
 			.split(',')
 			.map(m => (availableModules.indexOf(m) > -1) ? m : null)
 			.filter(v => (v));
 	}
-
-	// if (name) {
-	// 	// normalize name
-	// 	name = name
-	// 	// .replace(/\W/g, '')
-	// 	// .replace(/\d/g, '')
-	// 	// .toLowerCase()
-	// 	;
-	// }
 
 	if (attributes) {
 		// normalize attributes

@@ -1,8 +1,8 @@
 import * as Joi from 'joi';
 
-export const {{Module}}Schema = Joi.object().keys({
-	id: Joi.string().regex(/^[a-f\d]{24}$/i),
-{{parameterValidators}}
-	createdAt: Joi.date(),
-	updatedAt: Joi.date(),
-});
+export const new{{Module}}Schema = Joi.object().keys({
+{{creationParamValidators}}});
+
+export const update{{Module}}Schema = Joi.object().keys({
+	id: Joi.string().hex().length(24).required(),
+{{editionParamValidators}}});

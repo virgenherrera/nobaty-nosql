@@ -1,6 +1,4 @@
 import { I{{Module}} } from '../Model/{{Module}}';
-import { {{Module}}Schema } from '../Dto/{{Module}}';
-import { schemaValidator } from '../Lib/schemaValidator';
 // only for debugging
 // import { dd } from '../Lib/Debug';
 
@@ -9,11 +7,7 @@ export class {{Module}} implements I{{Module}} {
 	public createdAt;
 	public updatedAt;
 
-	constructor(params: any = {}, validateDto = false) {
-		if (validateDto) {
-			params = schemaValidator(params, {{Module}}Schema, true);
-		}
-
+	constructor(params: any = {}) {
 		this.id = params.id || `${params._id}`;{{propAssign}}
 		this.createdAt = params.createdAt;
 		this.updatedAt = params.updatedAt;

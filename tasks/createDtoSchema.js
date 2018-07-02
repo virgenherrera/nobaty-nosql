@@ -4,18 +4,24 @@ const { join } = require('path');
 const parseCliArgs = require("./lib/parseCliArgs");
 const { toCamelCase } = require('./lib/stringTransformation');
 
-function propValidator(attr = null, type = null) {
+function propValidator(attr = null, type = null, create = false) {
 	if (!attr || !type) return;
+	const reqField = (create) ? '.required()' : '';
 	let validator;
+
 	switch (type.toLowerCase()) {
 		case 'string':
-			validator = 'Joi.string(),';
+			validator = `Joi.string()${reqField},`;
 			break;
 		case 'number':
-			validator = 'Joi.number(),';
+			validator = `Joi.number()${reqField},`;
 			break;
 		case 'date':
-			validator = 'Joi.date(),';
+			validator = `Joi.date()${reqField},`;
+			break;
+
+		case 'boolean':
+			validator = `Joi.boolean()${reqField},`;
 			break;
 
 		default:
@@ -27,9 +33,12 @@ function propValidator(attr = null, type = null) {
 
 return (() => {
 	let { name = null, attributes = null } = parseCliArgs();
-	let propContent = '';
-	let propAssignContent = '';
+	let createPropContent = '';
+	let editPropContent = '';
 	const ModuleRegExp = new RegExp("{{Module}}", "g");
+	const creationParamValidatorsRegExp = new RegExp('{{creationParamValidators}}', 'g');
+	const editionParamValidatorsRegExp = new RegExp('{{editionParamValidators}}', 'g');
+
 	const parameterValidatorsRegExp = new RegExp("{{parameterValidators}}", "g");
 	const origin = join(__dirname, './lib/templates/dtoSchema.example');
 	const destiny = join(__dirname, `../src/Dto/${toCamelCase(name)}.ts`);
@@ -50,12 +59,14 @@ return (() => {
 
 	attributes.forEach(row => {
 		let [attr = null, type = null] = row;
-		propContent += propValidator(attr, type);
+		createPropContent += propValidator(attr, type, true);
+		editPropContent += propValidator(attr, type);
 	});
 
 	const newContent = fileContent
 		.replace(ModuleRegExp, toCamelCase(name))
-		.replace(parameterValidatorsRegExp, propContent);
+		.replace(creationParamValidatorsRegExp, createPropContent)
+		.replace(editionParamValidatorsRegExp, editPropContent);
 
 	if (existsSync(destiny)) {
 		console.error(`Cannot Overwrite!${"\n"}Dto:	${destiny}${"\n"}Already Exists`);
