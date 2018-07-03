@@ -32,35 +32,32 @@ export class ReqResHandler {
 
 		switch (method) {
 			case 'GET':
-				Data = new restDto.Http200(data);
+				Data = new restDto.Http200(data, this.req);
 				break;
 			case 'POST':
 				Data = new restDto.Http201(data);
 				break;
 
 			case 'PUT':
-				data['method'] = method;
-				Data = new restDto.Http200(data);
-
+				Data = new restDto.Http200(data, this.req);
 				break;
 
 			case 'DELETE':
-				data['method'] = method;
-				Data = new restDto.Http200(data);
+				Data = new restDto.Http200(data, this.req);
 				break;
 			case '204':
 				Data = new restDto.Http204;
 				break;
 
 			default:
-				Data = new restDto.Http200(data);
+				Data = new restDto.Http200(data, this.req);
 				break;
 		}
 
 		const { status } = Data;
 		delete Data.status;
 
-		return this.res.status(status).json(Data);
+		return this.res.status(status).json(Data).end();
 	}
 
 	public ErrorJsonResponse(Exception: any, exceptionOverride: number = null): any {
@@ -100,6 +97,6 @@ export class ReqResHandler {
 		const { status } = Err;
 		delete Err.status;
 
-		return this.res.status(status).json(Err);
+		return this.res.status(status).json(Err).end();
 	}
 }

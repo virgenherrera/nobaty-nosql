@@ -8,6 +8,6 @@ export const findEntitySchema = Joi.object().keys({
 export const listEntitySchema = Joi.object().keys({
 	sort: Joi.string(),
 	filter: Joi.string(),
-	limit: Joi.number().default(DEFAULT_PAGINATION.limit).integer().positive(),
-	offset: Joi.number().default(DEFAULT_PAGINATION.offset).integer().positive(),
+	page: Joi.number().default(DEFAULT_PAGINATION.page).integer().positive(),
+	per_page: Joi.number().default(DEFAULT_PAGINATION.per_page).integer().positive(),
 });
