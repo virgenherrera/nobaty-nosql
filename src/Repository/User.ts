@@ -1,14 +1,15 @@
 import { UserModel as Model } from '../Model/User';
 import { User as pocoUser } from '../Poco/User';
 import { IFullRepository } from '../Lib/interfaces';
+import { parseSkipLimit } from '../Lib/parseSkipLimit';
 // only for debugging
 // import { dd } from '../Lib/Debug';
 
 export interface IGetAllUser {
 	count: number;
 	rows: pocoUser[];
-	limit: number;
-	offset: number;
+	page: number;
+	per_page: number;
 }
 
 /* User Repository Class */
@@ -109,19 +110,20 @@ export class UserRepository implements IFullRepository {
 		return data.map(row => new pocoUser(row));
 	}
 
-	async GetAll({ limit, offset, where = {}, sort = {} }): Promise<IGetAllUser> {
+	async GetAll({ page, per_page, where = {}, sort = {} }): Promise<IGetAllUser> {
 		// Important to return Total count
 		// do not forget to include!!!!
 		const count = await Model.count(where).exec();
+		const { skip, limit } = parseSkipLimit(page, per_page, count);
 		const data: any[] = await Model
 			.find(where)
-			.skip(offset)
+			.skip(skip)
 			.limit(limit)
 			.sort(sort)
 			.exec();
 
 		const rows = data.map(row => new pocoUser(row));
 
-		return { count, rows, limit, offset };
+		return { count, rows, page, per_page };
 	}
 }

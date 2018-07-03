@@ -1,3 +1,6 @@
+import { Request } from 'express';
+import { Paging } from '../Poco/Paging';
+
 // Used for validation errors
 export class Http400 {
 	public status = 400;
@@ -62,15 +65,13 @@ export class Http200 {
 	public status = 200;
 	public message = 'Resource found';
 	public data;
-	public limit;
-	public offset;
-	public count;
+	public paging: Paging;
 
-	constructor(params: any = {}) {
+	constructor(params: any = {}, req: Request) {
 		if (!params || Object.keys(params).length === 0) { return <any>new Http404; }
 
-		const { rows = false, count = -1, limit, offset, method = '' } = params;
-		switch (method) {
+		const { rows = false, count = -1 } = params;
+		switch (req.method) {
 			case 'PUT':
 				this.message = 'Resource updated';
 				break;
@@ -82,15 +83,10 @@ export class Http200 {
 				break;
 		}
 
-		delete params['method'];
-
-		// pending
-		if ((rows) && count >= 0) {
+		// append paging Object
+		if (rows && count) {
 			this.data = rows;
-			this.count = count;
-			this.limit = limit;
-			this.offset = offset;
-
+			this.paging = new Paging(params, req);
 		} else {
 			this.data = params;
 		}
