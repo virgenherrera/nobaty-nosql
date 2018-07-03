@@ -28,6 +28,7 @@
   "license": "MIT",
   "homepage": "https://github.com/virgenherrera/nobaty-nosql#readme",
   "scripts": {
+    "test": "./node_modules/.bin/mocha",
     "start": "run-s -l cleanup lint ts:build serve:node",
     "production": "run-s production:start",
     "develop": "run-s -l -c cleanup lint ts:build serve:development",
@@ -116,11 +117,26 @@
     "@types/pug": "^2.0.4",
     "@types/serve-favicon": "^2.2.29",
     "@types/socket.io": "^1.4.31",
+    "@types/supertest": "^2.0.4",
     "@types/uuid": "^3.4.3",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "source-map-support": "^0.5.6",
+    "supertest": "^3.1.0",
     "tslint": "^5.8.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
   }
 }
