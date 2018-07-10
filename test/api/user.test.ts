@@ -1,10 +1,10 @@
 import * as chai from 'chai';
 import * as request from 'supertest';
 import { RoutePath } from '../../src/config/routePath';
+import { createAccessToken } from '../helpers';
 import { UserModel as Model } from '../../src/Model/User';
 import { User } from '../../src/Poco/User';
 import { preloadedFixtures, stagedFixtures } from '../fixtures/userFixtures';
-import { generateUserToken } from '../helpers';
 const { expect } = chai;
 
 chai.should();
@@ -108,7 +108,7 @@ describe('User endpoints:', () => {
 	it(assertion.getId, done => {
 		const [selUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', selUser._id);
-		const token = generateUserToken(selUser._id, selUser.role);
+		const token = createAccessToken();
 		const dummyPoco = new User();
 		delete dummyPoco.password;
 
@@ -147,9 +147,8 @@ describe('User endpoints:', () => {
 	});
 
 	it(assertion.get, done => {
-		const [selUser] = preloadedFixtures;
 		const url = RoutePath.User;
-		const token = generateUserToken(selUser._id, selUser.role);
+		const token = createAccessToken(1);
 		const dummyPoco = new User();
 		delete dummyPoco.password;
 
@@ -192,7 +191,7 @@ describe('User endpoints:', () => {
 	it(assertion.put, done => {
 		const [storedUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', storedUser._id);
-		const token = generateUserToken(storedUser._id, storedUser.role);
+		const token = createAccessToken(2);
 		const payload = stagedFixtures.user2;
 		const dummyPoco = new User();
 
@@ -236,7 +235,7 @@ describe('User endpoints:', () => {
 	it(assertion.delete, done => {
 		const [, , selUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', selUser._id);
-		const token = generateUserToken(selUser._id, selUser.role);
+		const token = createAccessToken(3);
 		const dummyPoco = new User();
 		delete dummyPoco.password;
 
