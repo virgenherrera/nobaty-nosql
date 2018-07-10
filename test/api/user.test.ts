@@ -11,6 +11,15 @@ chai.should();
 
 describe('User endpoints:', () => {
 	let app = null;
+	const assertion = {
+		post: 'POST users/ should return 201',
+		postTwice:
+			'POST users/ should return 400 when trying to register same email twice',
+		getId: 'GET users/:id should return 200 for a registered user',
+		get: 'GET users/ should return 200 for List users',
+		put: 'PUT users/ should return 200',
+		delete: 'DELETE users/:id should return 200'
+	};
 
 	before(async () => {
 		// ensure Collection is empty
@@ -26,7 +35,7 @@ describe('User endpoints:', () => {
 		app = widget.app;
 	});
 
-	afterEach((done) => {
+	afterEach(done => {
 		app = null;
 
 		done();
@@ -36,9 +45,10 @@ describe('User endpoints:', () => {
 		await Model.remove({}).exec();
 	});
 
-	it('POST users/ should return 201', (done) => {
+	it(assertion.post, done => {
 		const url = RoutePath.User;
 		const payload = stagedFixtures.user1;
+		const dummyPoco = new User();
 
 		request(app)
 			.post(url)
@@ -55,7 +65,7 @@ describe('User endpoints:', () => {
 				expect(body.message).to.be.equal('Resource created');
 
 				expect(body.data).to.be.an('object');
-				expect(body.data).to.have.all.keys(Object.keys(new User));
+				expect(body.data).to.have.all.keys(Object.keys(dummyPoco));
 
 				expect(body.data.id).to.be.a('string');
 				expect(body.data.name).to.be.a('string');
@@ -76,7 +86,7 @@ describe('User endpoints:', () => {
 			});
 	});
 
-	it('POST users/ should return 400 when trying to register same email twice', (done) => {
+	it(assertion.postTwice, done => {
 		const url = RoutePath.User;
 		const payload = stagedFixtures.user1;
 
@@ -96,11 +106,11 @@ describe('User endpoints:', () => {
 			});
 	});
 
-	it('GET users/:id should return 200 for a registered user', (done) => {
+	it(assertion.getId, done => {
 		const [selUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', selUser._id);
 		const token = generateUserToken(selUser._id, selUser.role);
-		const dummyPoco = new User;
+		const dummyPoco = new User();
 		delete dummyPoco.password;
 
 		request(app)
@@ -137,11 +147,11 @@ describe('User endpoints:', () => {
 			});
 	});
 
-	it('GET users/:id should return 200 for List users', (done) => {
+	it(assertion.get, done => {
 		const [selUser] = preloadedFixtures;
 		const url = RoutePath.User;
 		const token = generateUserToken(selUser._id, selUser.role);
-		const dummyPoco = new User;
+		const dummyPoco = new User();
 		delete dummyPoco.password;
 
 		request(app)
@@ -180,11 +190,12 @@ describe('User endpoints:', () => {
 			});
 	});
 
-	it('PUT users/ should return 200', (done) => {
+	it(assertion.put, done => {
 		const [storedUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', storedUser._id);
 		const token = generateUserToken(storedUser._id, storedUser.role);
 		const payload = stagedFixtures.user2;
+		const dummyPoco = new User();
 
 		request(app)
 			.put(url)
@@ -202,7 +213,7 @@ describe('User endpoints:', () => {
 				expect(body.message).to.be.equal('Resource updated');
 
 				expect(body.data).to.be.an('object');
-				expect(body.data).to.have.all.keys(Object.keys(new User));
+				expect(body.data).to.have.all.keys(Object.keys(dummyPoco));
 
 				expect(body.data.id).to.be.a('string');
 				expect(body.data.name).to.be.a('string');
@@ -223,11 +234,11 @@ describe('User endpoints:', () => {
 			});
 	});
 
-	it('DELETE users/:id should return 200', (done) => {
+	it(assertion.delete, done => {
 		const [, , selUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', selUser._id);
 		const token = generateUserToken(selUser._id, selUser.role);
-		const dummyPoco = new User;
+		const dummyPoco = new User();
 		delete dummyPoco.password;
 
 		request(app)
