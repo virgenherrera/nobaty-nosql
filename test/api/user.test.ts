@@ -29,6 +29,10 @@ describe('User endpoints:', () => {
 		await Model.insertMany(preloadedFixtures);
 	});
 
+	after(async () => {
+		await Model.remove({}).exec();
+	});
+
 	beforeEach(async () => {
 		const widget = await import('../../src/app');
 
@@ -39,10 +43,6 @@ describe('User endpoints:', () => {
 		app = null;
 
 		done();
-	});
-
-	after(async () => {
-		await Model.remove({}).exec();
 	});
 
 	it(assertion.post, done => {
