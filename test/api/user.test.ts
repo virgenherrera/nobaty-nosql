@@ -12,13 +12,12 @@ chai.should();
 describe('User endpoints:', () => {
 	let app = null;
 	const assertion = {
-		post: 'POST users/ should return 201',
-		postTwice:
-			'POST users/ should return 400 when trying to register same email twice',
-		getId: 'GET users/:id should return 200 for a registered user',
-		get: 'GET users/ should return 200 for List users',
-		put: 'PUT users/ should return 200',
-		delete: 'DELETE users/:id should return 200'
+		post: `POST ${RoutePath.User} should return 201`,
+		postTwice: `POST ${RoutePath.User} should return 400 when trying to register same email twice`,
+		getId: `GET ${RoutePath.User_Id} should return 200 for a registered user`,
+		get: `GET ${RoutePath.User} should return 200 for List users`,
+		put: `PUT ${RoutePath.User_Id} should return 200`,
+		delete: `DELETE ${RoutePath.User_Id} should return 200`,
 	};
 
 	before(async () => {
