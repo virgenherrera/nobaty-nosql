@@ -1,6 +1,6 @@
 import { sign } from 'jsonwebtoken';
 import { loadEnvironmentVars } from '../src/Lib/loadEnvironmentVars';
-import { preloadedFixtures } from './fixtures/userFixtures';
+import { preloadedFixtures } from './fixtures/user';
 
 export function generateToken(id: string, role: string): string {
 	loadEnvironmentVars();

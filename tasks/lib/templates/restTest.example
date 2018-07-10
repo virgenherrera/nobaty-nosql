@@ -1,23 +1,24 @@
 import * as chai from 'chai';
 import * as request from 'supertest';
 import { RoutePath } from '../../src/config/routePath';
-import { createAccessToken } from '../helpers';
-import { UserModel as Model } from '../../src/Model/User';
-import { User } from '../../src/Poco/User';
-import { preloadedFixtures, stagedFixtures } from '../fixtures/user';
+import { UserModel as Model } from '../../src/Model/{{Module}}';
+import { {{Module}} } from '../../src/Poco/{{Module}}';
+import { preloadedFixtures, stagedFixtures } from '../fixtures/userFixtures';
+import { generateUserToken } from '../helpers';
 const { expect } = chai;
 
 chai.should();
 
-describe('User endpoints:', () => {
+describe('{{Module}} endpoints:', () => {
 	let app = null;
 	const assertion = {
-		post: `POST ${RoutePath.User} should return 201`,
-		postTwice: `POST ${RoutePath.User} should return 400 when trying to register same email twice`,
-		getId: `GET ${RoutePath.User_Id} should return 200 for a registered user`,
-		get: `GET ${RoutePath.User} should return 200 for List users`,
-		put: `PUT ${RoutePath.User_Id} should return 200`,
-		delete: `DELETE ${RoutePath.User_Id} should return 200`,
+		post: 'POST users/ should return 201',
+		postTwice:
+			'POST users/ should return 400 when trying to register same email twice',
+		getId: 'GET users/:id should return 200 for a registered user',
+		get: 'GET users/ should return 200 for List users',
+		put: 'PUT users/ should return 200',
+		delete: 'DELETE users/:id should return 200'
 	};
 
 	before(async () => {
@@ -45,9 +46,9 @@ describe('User endpoints:', () => {
 	});
 
 	it(assertion.post, done => {
-		const url = RoutePath.User;
+		const url = RoutePath.{{Module}};
 		const payload = stagedFixtures.user1;
-		const dummyPoco = new User();
+		const dummyPoco = new {{Module}}();
 
 		request(app)
 			.post(url)
@@ -86,7 +87,7 @@ describe('User endpoints:', () => {
 	});
 
 	it(assertion.postTwice, done => {
-		const url = RoutePath.User;
+		const url = RoutePath.{{Module}};
 		const payload = stagedFixtures.user1;
 
 		request(app)
@@ -108,8 +109,8 @@ describe('User endpoints:', () => {
 	it(assertion.getId, done => {
 		const [selUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', selUser._id);
-		const token = createAccessToken();
-		const dummyPoco = new User();
+		const token = generateUserToken(selUser._id, selUser.role);
+		const dummyPoco = new {{Module}}();
 		delete dummyPoco.password;
 
 		request(app)
@@ -147,9 +148,10 @@ describe('User endpoints:', () => {
 	});
 
 	it(assertion.get, done => {
-		const url = RoutePath.User;
-		const token = createAccessToken(1);
-		const dummyPoco = new User();
+		const [selUser] = preloadedFixtures;
+		const url = RoutePath.{{Module}};
+		const token = generateUserToken(selUser._id, selUser.role);
+		const dummyPoco = new {{Module}}();
 		delete dummyPoco.password;
 
 		request(app)
@@ -191,9 +193,9 @@ describe('User endpoints:', () => {
 	it(assertion.put, done => {
 		const [storedUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', storedUser._id);
-		const token = createAccessToken(2);
+		const token = generateUserToken(storedUser._id, storedUser.role);
 		const payload = stagedFixtures.user2;
-		const dummyPoco = new User();
+		const dummyPoco = new {{Module}}();
 
 		request(app)
 			.put(url)
@@ -235,8 +237,8 @@ describe('User endpoints:', () => {
 	it(assertion.delete, done => {
 		const [, , selUser] = preloadedFixtures;
 		const url = RoutePath.User_Id.replace(':id', selUser._id);
-		const token = createAccessToken(3);
-		const dummyPoco = new User();
+		const token = generateUserToken(selUser._id, selUser.role);
+		const dummyPoco = new {{Module}}();
 		delete dummyPoco.password;
 
 		request(app)
