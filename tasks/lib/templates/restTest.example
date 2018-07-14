@@ -1,10 +1,10 @@
 import * as chai from 'chai';
 import * as request from 'supertest';
 import { RoutePath } from '../../src/config/routePath';
-import { UserModel as Model } from '../../src/Model/{{Module}}';
+import { createAccessToken } from '../helpers';
+import { {{Module}}Model as Model } from '../../src/Model/{{Module}}';
 import { {{Module}} } from '../../src/Poco/{{Module}}';
-import { preloadedFixtures, stagedFixtures } from '../fixtures/userFixtures';
-import { generateUserToken } from '../helpers';
+import { preloadedFixtures, stagedFixtures } from '../fixtures/{{module}}';
 const { expect } = chai;
 
 chai.should();
@@ -12,13 +12,11 @@ chai.should();
 describe('{{Module}} endpoints:', () => {
 	let app = null;
 	const assertion = {
-		post: 'POST users/ should return 201',
-		postTwice:
-			'POST users/ should return 400 when trying to register same email twice',
-		getId: 'GET users/:id should return 200 for a registered user',
-		get: 'GET users/ should return 200 for List users',
-		put: 'PUT users/ should return 200',
-		delete: 'DELETE users/:id should return 200'
+		post: `POST ${RoutePath.{{Module}}} should return 201`,
+		getId: `GET ${RoutePath.{{Module}}_Id} should return 200 for a registered {{module}}`,
+		get: `GET ${RoutePath.{{Module}}} should return 200 for List {{pluralModule}}`,
+		put: `PUT ${RoutePath.{{Module}}_Id} should return 200`,
+		delete: `DELETE ${RoutePath.{{Module}}_Id} should return 200`,
 	};
 
 	before(async () => {
@@ -47,7 +45,7 @@ describe('{{Module}} endpoints:', () => {
 
 	it(assertion.post, done => {
 		const url = RoutePath.{{Module}};
-		const payload = stagedFixtures.user1;
+		const payload = stagedFixtures.{{module}}1;
 		const dummyPoco = new {{Module}}();
 
 		request(app)
@@ -67,51 +65,17 @@ describe('{{Module}} endpoints:', () => {
 				expect(body.data).to.be.an('object');
 				expect(body.data).to.have.all.keys(Object.keys(dummyPoco));
 
-				expect(body.data.id).to.be.a('string');
-				expect(body.data.name).to.be.a('string');
-				expect(body.data.lastName).to.be.a('string');
-				expect(body.data.email).to.be.a('string');
-				expect(body.data.password).to.be.a('string');
-				expect(body.data.role).to.be.a('string');
-				expect(body.data.createdAt).to.be.a('string');
-				expect(body.data.updatedAt).to.be.a('string');
-
-				expect(body.data.name).to.be.equals(payload.name);
-				expect(body.data.lastName).to.be.equals(payload.lastName);
-				expect(body.data.email).to.be.equals(payload.email);
-				expect(body.data.password).to.be.equals('private');
-				expect(body.data.role).to.be.equals(payload.role);
-
-				done();
-			});
-	});
-
-	it(assertion.postTwice, done => {
-		const url = RoutePath.{{Module}};
-		const payload = stagedFixtures.user1;
-
-		request(app)
-			.post(url)
-			.expect(400)
-			.send(payload)
-			.end((err, { body }) => {
-				if (err) {
-					return done(err);
-				}
-
-				expect(body).to.be.an('object');
-				expect(body).to.have.all.keys('message', 'errors');
+				/* add 4 more Specific assertions here*/
 
 				done();
 			});
 	});
 
 	it(assertion.getId, done => {
-		const [selUser] = preloadedFixtures;
-		const url = RoutePath.User_Id.replace(':id', selUser._id);
-		const token = generateUserToken(selUser._id, selUser.role);
+		const [sel{{Module}}] = preloadedFixtures;
+		const url = RoutePath.{{Module}}_Id.replace(':id', sel{{Module}}._id);
+		const token = createAccessToken();
 		const dummyPoco = new {{Module}}();
-		delete dummyPoco.password;
 
 		request(app)
 			.get(url)
@@ -130,29 +94,16 @@ describe('{{Module}} endpoints:', () => {
 				expect(body.data).to.be.an('object');
 				expect(body.data).to.have.all.keys(Object.keys(dummyPoco));
 
-				expect(body.data.id).to.be.a('string');
-				expect(body.data.name).to.be.a('string');
-				expect(body.data.lastName).to.be.a('string');
-				expect(body.data.email).to.be.a('string');
-				expect(body.data.role).to.be.a('string');
-				expect(body.data.createdAt).to.be.a('string');
-				expect(body.data.updatedAt).to.be.a('string');
-
-				expect(body.data.name).to.be.equals(selUser.name);
-				expect(body.data.lastName).to.be.equals(selUser.lastName);
-				expect(body.data.email).to.be.equals(selUser.email);
-				expect(body.data.role).to.be.equals(selUser.role);
+				/* add 4 more Specific assertions here*/
 
 				done();
 			});
 	});
 
 	it(assertion.get, done => {
-		const [selUser] = preloadedFixtures;
 		const url = RoutePath.{{Module}};
-		const token = generateUserToken(selUser._id, selUser.role);
+		const token = createAccessToken(1);
 		const dummyPoco = new {{Module}}();
-		delete dummyPoco.password;
 
 		request(app)
 			.get(url)
@@ -172,13 +123,9 @@ describe('{{Module}} endpoints:', () => {
 
 				body.data.forEach(row => {
 					expect(row).to.have.all.keys(Object.keys(dummyPoco));
-					expect(row.id).to.be.a('string');
-					expect(row.name).to.be.a('string');
-					expect(row.lastName).to.be.a('string');
-					expect(row.email).to.be.a('string');
-					expect(row.role).to.be.a('string');
-					expect(row.createdAt).to.be.a('string');
-					expect(row.updatedAt).to.be.a('string');
+
+					/* add 4 more Specific assertions here*/
+
 				});
 
 				expect(body.paging).to.have.all.keys('count', 'prev', 'next');
@@ -191,10 +138,10 @@ describe('{{Module}} endpoints:', () => {
 	});
 
 	it(assertion.put, done => {
-		const [storedUser] = preloadedFixtures;
-		const url = RoutePath.User_Id.replace(':id', storedUser._id);
-		const token = generateUserToken(storedUser._id, storedUser.role);
-		const payload = stagedFixtures.user2;
+		const [stored{{Module}}] = preloadedFixtures;
+		const url = RoutePath.{{Module}}_Id.replace(':id', stored{{Module}}._id);
+		const token = createAccessToken(2);
+		const payload = stagedFixtures.{{module}}2;
 		const dummyPoco = new {{Module}}();
 
 		request(app)
@@ -215,31 +162,17 @@ describe('{{Module}} endpoints:', () => {
 				expect(body.data).to.be.an('object');
 				expect(body.data).to.have.all.keys(Object.keys(dummyPoco));
 
-				expect(body.data.id).to.be.a('string');
-				expect(body.data.name).to.be.a('string');
-				expect(body.data.lastName).to.be.a('string');
-				expect(body.data.email).to.be.a('string');
-				expect(body.data.password).to.be.a('string');
-				expect(body.data.role).to.be.a('string');
-				expect(body.data.createdAt).to.be.a('string');
-				expect(body.data.updatedAt).to.be.a('string');
-
-				expect(body.data.name).to.be.equals(payload.name);
-				expect(body.data.lastName).to.be.equals(payload.lastName);
-				expect(body.data.email).to.be.equals(payload.email);
-				expect(body.data.password).to.be.equals('private');
-				expect(body.data.role).to.be.equals(payload.role);
+				/* add 4 more Specific assertions here*/
 
 				done();
 			});
 	});
 
 	it(assertion.delete, done => {
-		const [, , selUser] = preloadedFixtures;
-		const url = RoutePath.User_Id.replace(':id', selUser._id);
-		const token = generateUserToken(selUser._id, selUser.role);
+		const [, , sel{{Module}}] = preloadedFixtures;
+		const url = RoutePath.{{Module}}_Id.replace(':id', sel{{Module}}._id);
+		const token = createAccessToken(3);
 		const dummyPoco = new {{Module}}();
-		delete dummyPoco.password;
 
 		request(app)
 			.delete(url)
@@ -258,18 +191,7 @@ describe('{{Module}} endpoints:', () => {
 				expect(body.data).to.be.an('object');
 				expect(body.data).to.have.all.keys(Object.keys(dummyPoco));
 
-				expect(body.data.id).to.be.a('string');
-				expect(body.data.name).to.be.a('string');
-				expect(body.data.lastName).to.be.a('string');
-				expect(body.data.email).to.be.a('string');
-				expect(body.data.role).to.be.a('string');
-				expect(body.data.createdAt).to.be.a('string');
-				expect(body.data.updatedAt).to.be.a('string');
-
-				expect(body.data.name).to.be.equals(selUser.name);
-				expect(body.data.lastName).to.be.equals(selUser.lastName);
-				expect(body.data.email).to.be.equals(selUser.email);
-				expect(body.data.role).to.be.equals(selUser.role);
+				/* add 4 more Specific assertions here*/
 
 				done();
 			});

@@ -1,0 +1,7 @@
+export const preloadedFixtures = [
+	// All these fixtures will be loaded to Test collection before test suite begins.
+{{preloadedFixtures}}];
+
+export const stagedFixtures = {
+	// All these fixtures are disposable to performs tests.
+{{stagedFixtures}}};

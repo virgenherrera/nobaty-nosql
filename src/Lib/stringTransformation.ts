@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 const splitRegex = /-|_| |\/|\\/;
 
 // transforms the first letter of the string in lowercase
@@ -52,4 +54,8 @@ export function formatString(number: number | string, mask: string = '0000-0000-
 	}
 
 	return res;
+}
+
+export function ObjectId() {
+	return `${Types.ObjectId()}`;
 }
