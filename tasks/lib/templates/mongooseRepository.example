@@ -1,0 +1,118 @@
+import { {{Module}}Model as Model } from '../Model/{{Module}}';
+import { {{Module}} as poco{{Module}} } from '../Poco/{{Module}}';
+import { IFullRepository } from '../Lib/interfaces';
+// only for debugging
+// import { dd } from '../Lib/Debug';
+
+export interface IGetAll{{Module}} {
+	count: number;
+	rows: poco{{Module}}[];
+	limit: number;
+	offset: number;
+}
+
+/* {{Module}} Repository Class */
+export class {{Module}}Repository implements IFullRepository {
+	static getInstance(): {{Module}}Repository {
+		return new {{Module}}Repository;
+	}
+
+	async Create(params): Promise<poco{{Module}}> {
+		const preparedEntity = new Model(params);
+		let Entity;
+
+		try {
+			Entity = await preparedEntity.save();
+		} catch (E) {
+			throw { type: 400, msg: `Error: '${E.code}' thrown by the data persistence layer.` };
+		}
+
+		return new poco{{Module}}(Entity);
+	}
+
+	async Update(params: any): Promise<poco{{Module}}> {
+		const {
+			id = null,
+{{letDeclarations}}	foreignConstraints = {},
+		} = params;
+		const Entity = <any>await Model.findById(id).exec();
+
+		if (!Entity) {
+			throw { type: 404, msg: `There is no {{Module}} that matches the id: '${id}'.` };
+		}
+
+		Object.getOwnPropertyNames(foreignConstraints).forEach((key) => {
+			if (Entity._doc.hasOwnProperty(key) && (`${Entity._doc[key]}` !== `${foreignConstraints[key]}`)) {
+				throw { type: 403, msg: `It is forbidden to edit a {{Module}} that does not belong to you.` };
+			}
+		});
+
+{{valAssignations}}
+		const updEntity = await Entity.save();
+		return new poco{{Module}}(updEntity);
+	}
+
+	async Delete(params: any): Promise<poco{{Module}}> {
+		const {
+			id = null,
+			foreignConstraints = {},
+		} = params;
+		const Entity = <any>await Model.findById(id).exec();
+
+		if (!Entity) {
+			throw { type: 404, msg: `There is no {{Module}} that matches the id: '${id}'.` };
+		} else {
+			Object.getOwnPropertyNames(foreignConstraints).forEach((key) => {
+				if (Entity._doc.hasOwnProperty(key) && (`${Entity._doc[key]}` !== `${foreignConstraints[key]}`)) {
+					throw { type: 403, msg: `It is forbidden to delete a {{Module}} that does not belong to you.` };
+				}
+			});
+
+			await Model.remove({ _id: id }).exec();
+
+			return new poco{{Module}}(Entity);
+		}
+	}
+
+	async GetById({ id = null }): Promise<poco{{Module}}> {
+		const Entity = await Model.findById(id).exec();
+
+		if (!Entity) {
+			throw { type: 404, msg: `There is no {{Module}} that matches the id: '${id}'.` };
+		}
+
+		return new poco{{Module}}(Entity);
+	}
+
+	async FindOne(params, fields = null): Promise<poco{{Module}}> {
+		const Entity = await Model.findOne(params, fields).exec();
+
+		if (!Entity) {
+			throw { type: 404, msg: `There is no {{Module}} that matches the parameters: '${JSON.stringify(params)}'.` };
+		}
+
+		return new poco{{Module}}(Entity);
+	}
+
+	async FindBy(params, fields = null): Promise<poco{{Module}}[]> {
+		const data: any[] = await Model.find(params, fields).exec();
+
+		return data.map(row => new poco{{Module}}(row));
+	}
+
+	async GetAll({ limit, offset, where = {}, sort = {} }): Promise<IGetAll{{Module}}> {
+		// Important to return Total count
+		// do not forget to include!!!!
+		const count = await Model.count(where).exec();
+		const data: any[] = await Model
+			.find(where)
+			.skip(offset)
+			.limit(limit)
+			.sort(sort)
+			.exec();
+
+		const rows = data.map(row => new poco{{Module}}(row));
+
+		return { count, rows, limit, offset };
+	}
+}

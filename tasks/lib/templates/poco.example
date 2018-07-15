@@ -1,0 +1,15 @@
+import { I{{Module}} } from '../Model/{{Module}}';
+// only for debugging
+// import { dd } from '../Lib/Debug';
+
+export class {{Module}} implements I{{Module}} {
+	public id;{{propDefinition}}
+	public createdAt;
+	public updatedAt;
+
+	constructor(params: any = {}) {
+		this.id = params.id || `${params._id}`;{{propAssign}}
+		this.createdAt = params.createdAt;
+		this.updatedAt = params.updatedAt;
+	}
+}

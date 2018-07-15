@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+const {
+	existsSync
+} = require('fs');
+const {
+	join
+} = require('path');
+const {
+	compilerOptions = {}
+} = require('../tsconfig.json');
+const {
+	outDir = 'dist'
+} = compilerOptions;
+const wwwCompiledService = join(__dirname, '../', outDir, 'Service/www.js');
+
+if (!existsSync(wwwCompiledService)) {
+	console.log(`it was not possible to find the file "${wwwCompiledService}"`);
+	console.log('This failure is probably caused by the fact that you forgot to execute the "tsc" command before')
+	process.exit();
+}
+
+require(wwwCompiledService);

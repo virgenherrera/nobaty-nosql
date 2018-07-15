@@ -1,0 +1,51 @@
+import { Router, Request, Response, NextFunction } from 'express';
+import { IHandler } from '../../Lib/interfaces';
+import { ReqResHandler } from '../../System/ReqResHandler';
+import { SessionController } from '../../Controller/Session';
+// only for debugging
+// import { dd } from '../../Lib/Debug';
+
+/* mainHandler Router Class */
+class MainHandler implements IHandler {
+
+	/**
+	* Mandatory Properties Description
+	* name: 	this Handler Name
+	* path: 	the path that handles this class
+	* router: 	the ExpressRouter itself to fill
+	*/
+	name = 'login';
+	path = `/${this.name}`;
+	router: Router = Router();
+
+	constructor() {
+		// Attach handlers to express Router
+		this.router
+			.get('/', this.getView.bind(this))
+			.post('/', this.postView.bind(this));
+	}
+
+	get controller() {
+		return new SessionController;
+	}
+
+	getView(...args): any {
+		const [, res] = args;
+		return res.render('login_example', { title: 'Express Js' });
+	}
+
+	async postView(req: Request, res: Response): Promise<any> {
+		const handUtil = new ReqResHandler(req, res);
+		const params = handUtil.mapReqToObject('body');
+		let data;
+
+		try {
+			data = await this.controller.createAction(params);
+			return res.status(200).cookie('token', data).redirect('/');
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+		}
+	}
+}
+
+export default new MainHandler;

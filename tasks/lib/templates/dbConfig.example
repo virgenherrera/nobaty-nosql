@@ -1,0 +1,15 @@
+"use strict";
+if( !(process.env.NODE_ENV) || !(process.env.SERVICE_NAME) ){
+	var { join } = require('path');
+	var Env = require('dotenv').config({ path: join(__dirname, '../.env') });
+}
+
+const ENV = process.env.NODE_ENV.toUpperCase();
+module.exports = {
+	username : process.env[`${ENV}_DB_USERNAME`],
+	password : process.env[`${ENV}_DB_PASSWORD`],
+	database : process.env[`${ENV}_DB_DATABASE`],
+	host : process.env[`${ENV}_DB_HOST`],
+	dialect : process.env[`${ENV}_DB_DIALECT`],
+	port : process.env[`${ENV}_DB_PORT`],
+};

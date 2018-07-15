@@ -1,0 +1,24 @@
+'use strict';
+// const { ModelName } = require('../dist/Model/modelname');
+// const exampleData = {
+// 	k1: 'v1',
+// 	k2: 'v2',
+// 	k3: 'v3',
+// };
+
+module.exports = {
+	up: () => {
+		/**
+		* Requiring a compiled model way
+		*/
+		// let preparedEntity = new ModelName(exampleData);
+		// return preparedEntity.save();
+	},
+
+	down: () => {
+		/**
+		* Requiring a compiled model way
+		*/
+		// return ModelName.remove(exampleData).exec();
+	}
+};
