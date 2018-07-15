@@ -1,7 +1,7 @@
 {
-  "name": "nobaty-nosql",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Take advantage of typescript with express js, mongoose, socket.io yarn and built-in tasks to quick creation of rest/webSocket service",
+  "description": "Rest Api services",
   "main": "./bin/www",
   "engines": {
     "node": ">=8.9.0",
@@ -20,13 +20,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/virgenherrera/nobaty-nosql"
+    "url": "git+https://github.com/PremierConsultingManagementSolutionsLLC/backend"
   },
   "bugs": {
-    "url": "https://github.com/virgenherrera/nobaty-nosql/issues"
+    "url": "https://github.com/PremierConsultingManagementSolutionsLLC/backend/issues"
   },
   "license": "MIT",
-  "homepage": "https://github.com/virgenherrera/nobaty-nosql#readme",
+  "homepage": "https://github.com/PremierConsultingManagementSolutionsLLC/backend#readme",
   "scripts": {
     "start": "run-s -l cleanup lint ts:build serve:node",
     "production": "run-s production:start",
