@@ -36,8 +36,8 @@ export class SendEmail {
 			user: process.env.EMAIL_USER,
 			pass: process.env.EMAIL_PASS,
 		},
-		logger: (process.env.NODE_ENV === 'development') ? true : false,
-		debug: (process.env.NODE_ENV === 'development') ? true : false
+		logger: false,
+		debug: false
 	};
 	private _mailOptions: IMailOptions = {
 		from: process.env.EMAIL_SERVICE,
@@ -220,9 +220,9 @@ export class SendEmail {
 		return this._emailTemplate;
 	}
 
-	get sawappyWebDomain(): string {
-		const { SAWAPPY_WEB_URL } = process.env;
-		return SAWAPPY_WEB_URL;
+	get serviceUrl(): string {
+		const { SERVICE_URL } = process.env;
+		return SERVICE_URL;
 	}
 
 	private templateLoader() {
@@ -231,7 +231,7 @@ export class SendEmail {
 	}
 
 	// private buildWebHookLink() {
-	// 	const url = resolve(this.sawappyWebDomain, this.webHookPath);
+	// 	const url = resolve(this.serviceUrl, this.webHookPath);
 	// 	const hookUri = new URL(url);
 
 	// 	for (const k in this.webHookGetParams) {
@@ -244,8 +244,8 @@ export class SendEmail {
 	// }
 
 	public prepareEmailContent(): void {
-		const sawappyDomainRegex = new RegExp('{{sawappyDomain}}', 'g');
-		let emailStr = this.templateLoader().replace(sawappyDomainRegex, this.sawappyWebDomain);
+		const serviceUrlRegex = new RegExp('{{serviceUrl}}', 'g');
+		let emailStr = this.templateLoader().replace(serviceUrlRegex, this.serviceUrl);
 
 		for (const k in this.emailRenderData) {
 			if (this.emailRenderData.hasOwnProperty(k)) {

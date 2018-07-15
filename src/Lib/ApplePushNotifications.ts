@@ -31,7 +31,7 @@ export class ApplePushNotifications {
 		}
 
 		const env = /^production$/.test(APNS_ENVIRONMENT.toLowerCase());
-		const certFile = (env) ? 'sawappy.cert.PRODUCTION.p8' : 'sawappy.cert.DEVELOPMENT.p8';
+		const certFile = (env) ? 'apns.cert.PRODUCTION.p8' : 'apns.cert.DEVELOPMENT.p8';
 		const apnsCertFilePath = Directories.getPathToFileIfExists('certsPath', certFile);
 
 		if (!apnsCertFilePath) {
