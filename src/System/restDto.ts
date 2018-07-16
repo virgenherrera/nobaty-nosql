@@ -38,6 +38,11 @@ export class Http403 {
 export class Http404 {
 	public status = 404;
 	public message = 'The requested resource could not be found but may be available in the future. Subsequent requests by the client are permissible.';
+	public errors;
+
+	constructor(errors: any) {
+		this.errors = errors;
+	}
 }
 
 // bad-Headers
@@ -68,9 +73,8 @@ export class Http200 {
 	public paging: Paging;
 
 	constructor(params: any = {}, req: Request) {
-		if (!params || Object.keys(params).length === 0) { return <any>new Http404; }
+		const { rows = null, count = null } = params;
 
-		const { rows = false, count = -1 } = params;
 		switch (req.method) {
 			case 'PUT':
 				this.message = 'Resource updated';
@@ -90,7 +94,6 @@ export class Http200 {
 		} else {
 			this.data = params;
 		}
-
 	}
 }
 

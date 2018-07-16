@@ -7,3 +7,9 @@ export const DEFAULT_PAGINATION = {
 	page: 1,
 	per_page: 50,
 };
+
+export const authKeys = {
+	token: 'token',
+	decodedToken: 'decodedToken',
+	user: 'user',
+};

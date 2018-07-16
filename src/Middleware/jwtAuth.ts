@@ -1,14 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { ReqResHandler } from '../System/ReqResHandler';
-import { SessionController } from '../Controller/Session';
+import { AuthController } from '../Controller/Auth';
+import { authKeys } from '../config/config';
 
-export async function jwtAuth(req: Request, res: Response, next: NextFunction): Promise<any> {
-	const handUtil = new ReqResHandler(req, res);
-	const ctrl = new SessionController;
+function getTokenFromRequest(req: Request): string {
 	const bRegExp = new RegExp('Bearer ', 'g');
 	const rawToken = req.body.token ||
 		req.query.token ||
-		req.headers.token ||
+		req.query.access_token ||
 		req.headers['Authorization'] ||
 		req.headers['authorization'] ||
 		req.headers['token'] ||
@@ -16,12 +15,19 @@ export async function jwtAuth(req: Request, res: Response, next: NextFunction): 
 		req.headers['JWT'] ||
 		req.headers['jwt'] ||
 		'';
-	const token = (rawToken) ? rawToken.replace(bRegExp, '') : '';
+
+	return rawToken.replace(bRegExp, '');
+}
+
+export async function jwtAuth(req: Request, res: Response, next: NextFunction): Promise<any> {
+	const handUtil = new ReqResHandler(req, res);
+	const token = getTokenFromRequest(req);
 
 	try {
-		const { decodedToken, authenticatedAccount } = await ctrl.validateAction(token);
-		req['decodedToken'] = decodedToken;
-		req['authenticatedAccount'] = authenticatedAccount;
+		const data = await AuthController.getInstance().validateAction(token);
+		req[authKeys.token] = data.token;
+		req[authKeys.decodedToken] = data.decodedToken;
+		req[authKeys.user] = data.user;
 
 		return next();
 	} catch (E) {
