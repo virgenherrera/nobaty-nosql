@@ -1,12 +1,13 @@
 {
-  "editor.renderWhitespace": "boundary",
+  "editor.multiCursorModifier": "ctrlCmd",
+  "emmet.showSuggestionsAsSnippets": true,
+  "emmet.triggerExpansionOnTab": true,
+  "extensions.ignoreRecommendations": false,
+  "tslint.alwaysShowRuleFailuresAsWarnings": true,
+  "tslint.autoFixOnSave": true,
+  "tslint.enable": true,
+  "tslint.run": "onType",
   "editor.formatOnSave": true,
-	"editor.multiCursorModifier": "ctrlCmd",
-	"extensions.ignoreRecommendations": false,
-	"emmet.showSuggestionsAsSnippets": true,
-	"emmet.triggerExpansionOnTab": true,
-	"tslint.enable": true,
-	"tslint.run": "onType",
-	"tslint.autoFixOnSave": true,
-	"tslint.alwaysShowRuleFailuresAsWarnings": true
+  "editor.renderWhitespace": "boundary",
+  "workbench.colorTheme": "Visual Studio Dark"
 }

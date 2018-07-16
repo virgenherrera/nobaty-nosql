@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ReqResHandler } from '../../System/ReqResHandler';
 import { jwtAuth } from '../../Middleware/jwtAuth';
-import { SessionController } from '../../Controller/Session';
+import { AuthController } from '../../Controller/Auth';
 import { RestHandler, Endpoint } from '../../System/decorators';
 import { RoutePath } from '../../config/routePath';
 
@@ -15,8 +15,8 @@ export default class LogoutHandler {
 		let data;
 
 		try {
-			data = await SessionController.getInstance().destroyAction(params);
-			return handUtil.SuccessJsonResponse(data);
+			data = await AuthController.getInstance().destroyAction(params);
+			return handUtil.SuccessJsonResponse(data, '204');
 		} catch (E) {
 			return handUtil.ErrorJsonResponse(E);
 		}

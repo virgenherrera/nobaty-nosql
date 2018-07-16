@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as restDto from './restDto';
+import { authKeys } from '../config/config';
 
 
 export class ReqResHandler {
@@ -16,6 +17,17 @@ export class ReqResHandler {
 					return (typeof this.req[key] === 'object') ? this.req[key] : { [key]: this.req[key] };
 				}
 			});
+
+		// Push auth data if available
+		if (this.req.hasOwnProperty(authKeys.token)) {
+			reqParamsArr.push({ [authKeys.token]: this.req[authKeys.token] });
+		}
+		if (this.req.hasOwnProperty(authKeys.decodedToken)) {
+			reqParamsArr.push({ [authKeys.decodedToken]: this.req[authKeys.decodedToken] });
+		}
+		if (this.req.hasOwnProperty(authKeys.user)) {
+			reqParamsArr.push({ [authKeys.user]: this.req[authKeys.user] });
+		}
 
 		return Object.assign({}, ...reqParamsArr);
 	}
@@ -81,7 +93,7 @@ export class ReqResHandler {
 				Err = new restDto.Http403(Exception);
 				break;
 			case 404:
-				Err = new restDto.Http404;
+				Err = new restDto.Http404(Exception);
 				break;
 			case 406:
 				Err = new restDto.Http406(Exception);

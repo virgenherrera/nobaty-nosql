@@ -16,4 +16,5 @@
 
 export { default as api_system } from '../Handler/Restful/system';
 export { default as api_login } from '../Handler/Restful/login';
+export { default as api_logout } from '../Handler/Restful/logout';
 export { default as api_user } from '../Handler/Restful/user';

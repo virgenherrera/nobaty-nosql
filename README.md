@@ -1,5 +1,5 @@
-# nobaty-nosql
-Take advantage of typescript with express js, mongoose, socket.io yarn and built-in tasks to quick creation of rest/webSocket service
+# backend
+Rest Api service.
 
 # Project Setup
 These dependencies must be installed globally as the initial step to configure the project environment.

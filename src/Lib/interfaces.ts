@@ -1,4 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import { User } from '../Poco/User';
 
 export interface IHandler {
 	readonly name: string;
@@ -101,4 +102,10 @@ export interface IResDto {
 	limit?: number;
 	offset?: number;
 	count?: number;
+}
+
+export interface ICredentials {
+	token: string;
+	decodedToken: any;
+	user: User;
 }

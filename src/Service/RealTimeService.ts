@@ -1,5 +1,5 @@
 import * as SocketIo from 'socket.io';
-import { SessionController } from '../Controller/Session';
+import { AuthController } from '../Controller/Auth';
 import { USE_REAL_TIME_SERVICE } from '../config/config';
 
 export let IO: any = null;
@@ -36,11 +36,10 @@ export class RealTimeService {
 			incomingSocket.disconnect();
 		}
 
-		const ctrl = new SessionController();
 		let decodedToken;
 
 		try {
-			decodedToken = await ctrl.validateAction(token);
+			decodedToken = await AuthController.getInstance().validateAction(token);
 
 			// call actual onConnect handler
 			return this.onConnectHandler.call(this, incomingSocket, decodedToken);

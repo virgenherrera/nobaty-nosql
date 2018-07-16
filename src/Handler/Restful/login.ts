@@ -1,4 +1,4 @@
-import { SessionController as controller } from '../../Controller/Session';
+import { AuthController as controller } from '../../Controller/Auth';
 import { Endpoint, RestHandler } from '../../System/decorators';
 import { Request, Response } from 'express';
 import { ReqResHandler } from '../../System/ReqResHandler';
