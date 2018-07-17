@@ -1,19 +1,11 @@
 "use strict";
-const {
-	existsSync,
-	writeFileSync,
-	readFileSync
-} = require('fs');
-const {
-	join
-} = require('path');
+const { existsSync, writeFileSync, readFileSync } = require('fs');
+const { join } = require('path');
 const { toCamelCase } = require('./lib/stringTransformation');
 const parseCliArgs = require("./lib/parseCliArgs");
 
 return (() => {
-	let {
-		name = null
-	} = parseCliArgs();
+	let { name = null, force } = parseCliArgs();
 	const lowerRegEx = new RegExp("{{module}}", "g");
 	const CamelRegEx = new RegExp("{{Module}}", "g");
 	const CamelName = toCamelCase(name);
@@ -30,7 +22,7 @@ return (() => {
 		process.exit(1);
 	}
 
-	if (existsSync(destiny)) {
+	if (existsSync(destiny) && !force) {
 		console.error(`Cannot Overwrite!${"\n"}Controller:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
 	} else {

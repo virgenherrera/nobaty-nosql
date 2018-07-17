@@ -1,12 +1,6 @@
 "use strict";
-const {
-	existsSync,
-	writeFileSync,
-	readFileSync
-} = require('fs');
-const {
-	join
-} = require('path');
+const { existsSync, writeFileSync, readFileSync } = require('fs');
+const { join } = require('path');
 const { toCamelCase } = require('./lib/stringTransformation');
 const parseCliArgs = require("./lib/parseCliArgs");
 const letCont = (attr = null) => {
@@ -20,7 +14,7 @@ const valAssign = (attr = null) => {
 
 return (() => {
 	let {
-		name = null, attributes = null
+		name = null, attributes = null, force
 	} = parseCliArgs();
 	let letContent = '';
 	let valContent = '';
@@ -58,7 +52,7 @@ return (() => {
 		.replace(letDeclarationsRegExp, letContent + `		`)
 		.replace(valAssignationsRegExp, valContent);
 
-	if (existsSync(destiny)) {
+	if (existsSync(destiny) && !force) {
 		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
 	} else {

@@ -32,7 +32,7 @@ function propValidator(attr = null, type = null, create = false) {
 }
 
 return (() => {
-	let { name = null, attributes = null } = parseCliArgs();
+	let { name = null, attributes = null, force } = parseCliArgs();
 	let createPropContent = '';
 	let editPropContent = '';
 	const ModuleRegExp = new RegExp("{{Module}}", "g");
@@ -68,7 +68,7 @@ return (() => {
 		.replace(creationParamValidatorsRegExp, createPropContent)
 		.replace(editionParamValidatorsRegExp, editPropContent);
 
-	if (existsSync(destiny)) {
+	if (existsSync(destiny) && !force) {
 		console.error(`Cannot Overwrite!${"\n"}Dto:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
 	} else {

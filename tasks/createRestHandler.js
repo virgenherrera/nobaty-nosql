@@ -14,7 +14,7 @@ function newRoutePaths(key = null) {
 }
 
 return (() => {
-	const { name = null } = parseCliArgs();
+	const { name = null, force } = parseCliArgs();
 	const snake_name = to_snake_case(name);
 	const loaderFile = join(__dirname, '../src/config/handler.ts');
 	const origin = join(__dirname, './lib/templates/restHandler.example');
@@ -39,7 +39,7 @@ return (() => {
 		process.exit(1);
 	}
 
-	if (existsSync(destiny)) {
+	if (existsSync(destiny) && !force) {
 		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
 	} else {

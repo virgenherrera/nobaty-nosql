@@ -15,7 +15,7 @@ function propAssign(attr = null) {
 }
 
 return (() => {
-	let { name = null, attributes = null } = parseCliArgs();
+	let { name = null, attributes = null, force } = parseCliArgs();
 	let propContent = '';
 	let propAssignContent = '';
 	const ModuleRegExp = new RegExp("{{Module}}", "g");
@@ -50,7 +50,7 @@ return (() => {
 		.replace(propDefinitionRegExp, propContent)
 		.replace(propAssignRegExp, propAssignContent);
 
-	if (existsSync(destiny)) {
+	if (existsSync(destiny) && !force) {
 		console.error(`Cannot Overwrite!${"\n"}Poco:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
 	} else {

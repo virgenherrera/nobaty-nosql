@@ -33,7 +33,7 @@ function schemaAttrCont(attr = null, type = null) {
 
 return (() => {
 	let {
-		name = null, attributes = null
+		name = null, attributes = null, force
 	} = parseCliArgs();
 	let iContent = '';
 	let schemaDefinition = '';
@@ -68,7 +68,7 @@ return (() => {
 		.replace(iContRegex, iContent)
 		.replace(schemaDefRegex, schemaDefinition);
 
-	if (existsSync(destiny)) {
+	if (existsSync(destiny) && !force) {
 		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
 	} else {
