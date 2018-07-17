@@ -43,8 +43,10 @@ return (() => {
 		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
 	} else {
-		appendFileSync(loaderFile, exportHandler, { encoding: 'utf-8' });
+		if (!force) {
+			appendFileSync(loaderFile, exportHandler, { encoding: 'utf-8' });
+			writeFileSync(routePathFilePath, newRoutePathContent, { encoding: 'utf-8' });
+		}
 		writeFileSync(destiny, newContent, { encoding: 'utf-8' });
-		writeFileSync(routePathFilePath, newRoutePathContent, { encoding: 'utf-8' });
 	}
 })();

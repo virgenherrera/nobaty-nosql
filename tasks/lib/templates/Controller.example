@@ -6,7 +6,7 @@ import { new{{Module}}Schema, update{{Module}}Schema } from '../Dto/{{Module}}';
 import { findEntitySchema, listEntitySchema } from '../Dto/globalService';
 import { parseSort } from '../Lib/parseSort';
 // only for debugging
-// import { dd, dump , die } from '../Lib/Debug';
+// import { dd, dump, die } from '../Lib/Debug';
 
 /* {{Module}} Controller Class */
 export class {{Module}}Controller implements ICrudController {
