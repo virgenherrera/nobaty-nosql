@@ -16,7 +16,7 @@ export function loadEnvironmentVars(): void {
 		process.exit(1);
 	}
 
-	const { parsed } = dotEnv.config({
+	dotEnv.config({
 		path: dotEnvFilePath
 	});
 
@@ -26,5 +26,5 @@ export function loadEnvironmentVars(): void {
 		process.exit(1);
 	}
 
-	console.log(`Successfully loaded Environment vars:${'\n'}"${Object.keys(parsed).join('", "')}" from "${dotEnvFilePath}" file.`);
+	console.log(`Successfully loaded Environment vars: from "${dotEnvFilePath}" file.`);
 }

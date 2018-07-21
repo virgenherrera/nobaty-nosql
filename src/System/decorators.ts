@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { resolve } from 'url';
 import { Router } from 'express';
 
 // RestHandler Decorator
@@ -8,11 +8,17 @@ export function RestHandler(constructor: Function): any {
 	const name = constructor['name'];
 	const router: Router = Router();
 
+	console.log(`Transforming class: "${name}" into express router module.`);
+
 	// Assign Endpoints to router
 	Endpoints.forEach(v => {
 		const { methods = [], args = [] } = constructor[v] || {};
 
-		methods.forEach(method => router[method](...args));
+		methods.forEach(method => {
+			console.log(`	binding ${method.toUpperCase()} ${args[0]} endpoint.`);
+
+			router[method](...args);
+		});
 	});
 
 	return { name, router };
@@ -56,7 +62,7 @@ export function Endpoint(path: string, ...middlewareFunctions): any {
 export function basePath(overrideBase: string = null): any {
 	return function (constructor: any, propName: string): PropertyDescriptor {
 		const base = (overrideBase) ? overrideBase : constructor['BASE_PATH'];
-		const value = join(base, constructor[propName]);
+		const value = resolve(base, constructor[propName]);
 
 		return { value };
 	};
@@ -65,7 +71,7 @@ export function basePath(overrideBase: string = null): any {
 export function apiV1Path(overrideBase: string = null) {
 	return function (constructor: any, propName: string): any {
 		const base = (overrideBase) ? overrideBase : constructor['API_V1_PATH'];
-		const value = join(base, constructor[propName]);
+		const value = resolve(base, constructor[propName]);
 
 		return { value };
 	};
